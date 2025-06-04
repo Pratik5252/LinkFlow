@@ -9,7 +9,8 @@ const prisma = new PrismaClient();
 
 export const getMeContoller = async (req: CustomRequest, res: Response) => {
   try {
-    const userId = (req.user as JwtPayload & { id: string }).id;
+    const userId = (req.user as JwtPayload & { userId: string }).userId;
+
     const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user) {
       res.status(404).json({ error: "User not found" });
