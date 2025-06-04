@@ -19,14 +19,14 @@ model User {
   password  String
   createdAt DateTime @default(now())
 
-  urls URL[]
+  urls Url[]
 }
 
-model URL {
+model Url {
   id          String   @id @default(uuid())
   userId      String
   originalUrl String   @unique
-  shortUrl    String   @unique
+  shortUrl    String?  @unique
   title       String?
   createdAt   DateTime @default(now())
 
@@ -44,5 +44,5 @@ model Visit {
   device    String
   timestamp DateTime @default(now())
 
-  url URL @relation(fields: [urlId], references: [id])
+  url Url @relation(fields: [urlId], references: [id])
 }

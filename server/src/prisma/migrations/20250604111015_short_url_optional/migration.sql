@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "URL" ALTER COLUMN "shortUrl" DROP NOT NULL;
