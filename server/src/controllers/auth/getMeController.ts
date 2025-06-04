@@ -1,11 +1,7 @@
-import express from "express";
-import authenticateToken, { CustomRequest } from "../../middleware/auth";
-import { PrismaClient } from "@prisma/client";
+import { CustomRequest } from "../../middleware/auth";
 import { JwtPayload } from "jsonwebtoken";
-import { Response, Request } from "express";
-
-const app = express();
-const prisma = new PrismaClient();
+import { Response } from "express";
+import prisma from "../../prisma/prismaClient";
 
 export const getMeContoller = async (req: CustomRequest, res: Response) => {
   try {

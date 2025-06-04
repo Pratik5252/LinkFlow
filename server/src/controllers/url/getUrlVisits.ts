@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import { Response } from "express";
 import { CustomRequest } from "../../middleware/auth";
 import { JwtPayload } from "jsonwebtoken";
-
-const prisma = new PrismaClient();
+import prisma from "../../prisma/prismaClient";
 
 export const getUrlVisits = async (req: CustomRequest, res: Response) => {
   const { urlId } = req.params;

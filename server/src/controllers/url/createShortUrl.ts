@@ -1,10 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../prisma/prismaClient";
 import { Response, Request } from "express";
 import { CustomRequest } from "../../middleware/auth";
 import { JwtPayload } from "jsonwebtoken";
 import { nanoid } from "nanoid";
-
-const prisma = new PrismaClient();
 
 export const createShortUrl = async (req: CustomRequest, res: Response) => {
   const { originalUrl, customUrl, title } = req.body;
@@ -30,7 +28,8 @@ export const createShortUrl = async (req: CustomRequest, res: Response) => {
       },
     });
 
-    res.status(201).json(newUrl);
+    const shortLink = `http://localhost:3000/${newUrl.shortUrl}`;
+    res.status(201).json({ ...newUrl, shortLink });
   } catch (err) {
     res.status(500).json({ error: "Failed to create short URL" });
   }

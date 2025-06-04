@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import { getClientDetails } from "../../utils/getLocation";
-
-const prisma = new PrismaClient();
+import prisma from "../../prisma/prismaClient";
 
 export const redirectUrl = async (req: Request, res: Response) => {
   const { shorturl } = req.params;
