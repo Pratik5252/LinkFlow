@@ -4,10 +4,10 @@ import { getMeContoller } from "../controllers/auth/getMeController";
 import authenticateToken from "../middleware/auth";
 import { login } from "../controllers/auth/login";
 
-const authRouter = Router();
+const router = Router();
 
-authRouter.post("/register", register);
-authRouter.post("/login", login);
-authRouter.get("/me", authenticateToken, getMeContoller);
+router.post("/register", register);
+router.post("/login", login);
+router.get("/me", authenticateToken, getMeContoller);
 
-export default authRouter;
+export default router;

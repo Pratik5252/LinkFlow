@@ -4,11 +4,11 @@ import { createShortUrl } from "../controllers/url/createShortUrl";
 import { getAllUrls } from "../controllers/url/getUrl";
 import { getUrlVisits } from "../controllers/url/getUrlVisits";
 
-const urlRoutes = Router();
+const router = Router();
 
-urlRoutes.post("/shorturl", authenticateToken, createShortUrl);
+router.post("/", authenticateToken, createShortUrl);
 
-urlRoutes.get("/geturl", authenticateToken, getAllUrls);
-urlRoutes.get("/:urlId/visits", authenticateToken, getUrlVisits);
+router.get("/", authenticateToken, getAllUrls);
+router.get("/:urlId/visits", authenticateToken, getUrlVisits);
 
-export default urlRoutes;
+export default router;

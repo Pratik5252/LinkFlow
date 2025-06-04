@@ -2,8 +2,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import prisma from "../../prisma/prismaClient";
-
-const JWT_SECRET = process.env.JWT_SECRET!;
+import { JWT_EXPIRES_IN, JWT_SECRET } from "../../config/jwt";
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -22,7 +21,7 @@ export const login = async (req: Request, res: Response) => {
     }
 
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
-      expiresIn: "7d",
+      expiresIn: JWT_EXPIRES_IN,
     });
 
     res.status(201).json({ message: "Login Successful", token });
