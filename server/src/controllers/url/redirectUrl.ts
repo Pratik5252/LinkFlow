@@ -1,19 +1,31 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
+import { getClientDetails } from "../../utils/getLocation";
 
 const prisma = new PrismaClient();
 
 export const redirectUrl = async (req: Request, res: Response) => {
   const { shorturl } = req.params;
-  console.log(shorturl);
+  const client = getClientDetails(req);
 
   try {
     const url = await prisma.url.findUnique({ where: { shortUrl: shorturl } });
-    console.log(url);
 
     if (!url) {
       res.status(400).json({ message: "Short Url not found" });
+      return;
     }
+
+    await prisma.visit.create({
+      data: {
+        urlId: url.id,
+        ip: client.ip,
+        location: client.location,
+        browser: client.browser,
+        os: client.os,
+        device: client.device,
+      },
+    });
 
     res.redirect(url!.originalUrl);
   } catch (error) {
