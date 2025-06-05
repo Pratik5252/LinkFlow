@@ -8,6 +8,8 @@ export function RegisterForm({ onSwitch }: { onSwitch: () => void }) {
   const handleRegister = async (email: string, password: string) => {
     try {
       const res = await register({ email, password });
+      console.log(res);
+
       if (res.user) {
         setError(null);
         // Optionally auto-login or redirect

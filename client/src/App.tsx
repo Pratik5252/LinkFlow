@@ -6,7 +6,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<AuthForm />} />
+        <Route path="/auth" element={<AuthForm />} />
       </Routes>
     </BrowserRouter>
   );

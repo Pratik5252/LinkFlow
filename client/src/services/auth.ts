@@ -16,7 +16,7 @@ export interface RegisterPayload {
 
 export interface RegisterResponse {
   message: string;
-  user: {
+  user?: {
     email: string;
     id: string;
   };
@@ -39,7 +39,7 @@ export async function login(payload: LoginPayload): Promise<LoginResponse> {
 export async function register(
   payload: RegisterPayload
 ): Promise<RegisterResponse> {
-  const res = await fetch("http://localhost:3000/api/auth/login", {
+  const res = await fetch("http://localhost:3000/api/auth/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),

@@ -8,6 +8,8 @@ export function LoginForm({ onSwitch }: { onSwitch: () => void }) {
   const handleLogin = async (email: string, password: string) => {
     try {
       const res = await login({ email, password });
+      console.log(res);
+
       if (res.token) {
         localStorage.setItem("token", res.token);
         setError(null);
