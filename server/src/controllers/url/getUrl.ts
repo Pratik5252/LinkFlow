@@ -16,8 +16,12 @@ export const getAllUrls = async (req: CustomRequest, res: Response) => {
       res.status(404).json({ message: "User not found" });
       return;
     }
+    const urlsWithShotLink = user.urls.map((url) => ({
+      ...url,
+      shortLink: `http://localhost:3000/${url.shortUrl}`,
+    }));
 
-    res.json(user?.urls);
+    res.json(urlsWithShotLink);
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
