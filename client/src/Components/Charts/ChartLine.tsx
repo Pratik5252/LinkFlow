@@ -61,39 +61,37 @@ export function ChartLine({ visits }: { visits: Visit[] }) {
       desktop: chartData.reduce((acc, curr) => acc + curr.desktop, 0),
       mobile: chartData.reduce((acc, curr) => acc + curr.mobile, 0),
     }),
-    []
+    [chartData]
   );
 
   return (
     <Card className="py-4 sm:py-0 rounded-2xl h-fit w-fit">
-      {/* <CardHeader className="flex flex-col items-stretch border-b !p-0 sm:flex-row">
+      <CardHeader className="flex flex-col items-stretch border-b !p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 pb-3 sm:pb-0">
-          <CardTitle>Line Chart - Interactive</CardTitle>
-          <CardDescription>
-            Showing total visitors for the last 3 months
-          </CardDescription>
+          <CardTitle>Visitors</CardTitle>
+          <CardDescription>Showing total visitors by device</CardDescription>
         </div>
         <div className="flex">
           {["desktop", "mobile"].map((key) => {
             const chart = key as keyof typeof chartConfig;
             return (
-              <button
+              <div
                 key={chart}
                 data-active={activeChart === chart}
-                className="data-[active=true]:bg-muted/50 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l sm:border-t-0 sm:border-l sm:px-8 sm:py-6"
+                className="data-[active=true]:bg-muted/50 flex flex-1 flex-col justify-center items-center gap-1 border-t px-6 py-4 text-left even:border-l sm:border-t-0 sm:border-l sm:px-8 sm:py-2"
                 onClick={() => setActiveChart(chart)}
               >
                 <span className="text-muted-foreground text-xs">
                   {chartConfig[chart].label}
                 </span>
-                <span className="text-lg leading-none font-bold sm:text-3xl">
+                <span className="text-lg leading-none font-bold sm:text-2xl">
                   {total[key as keyof typeof total].toLocaleString()}
                 </span>
-              </button>
+              </div>
             );
           })}
         </div>
-      </CardHeader> */}
+      </CardHeader>
       <CardContent className="px-2 sm:p-6">
         <ChartContainer
           config={chartConfig}
