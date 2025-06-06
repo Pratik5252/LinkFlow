@@ -1,11 +1,23 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AuthForm from "./Components/AuthForm";
+import AuthForm from "./Components/Auth/AuthForm";
 import "./App.css";
+import Dashboard from "./Components/Dashboard";
+import ProtechedRoute from "./Components/Auth/ProtechedRoute";
+import Navbar from "./Components/Navbar";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route
+          path="/"
+          element={
+            <ProtechedRoute>
+              <Navbar />
+              <Dashboard />
+            </ProtechedRoute>
+          }
+        />
         <Route path="/auth" element={<AuthForm />} />
       </Routes>
     </BrowserRouter>
