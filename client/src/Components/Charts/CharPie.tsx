@@ -14,6 +14,7 @@ import {
 } from "@/Components/ui/chart";
 import { dummyVisitData } from "@/__mocks__/dummyVisitData";
 import type { Visit } from "@/types/visits";
+import { getBrowserPieData } from "@/utils/getBrowserData";
 
 export const description = "A pie chart showing browser distribution";
 
@@ -44,29 +45,6 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 // Helper to aggregate browser data from visits
-function getBrowserPieData(visits: Visit[]) {
-  const browserMap: Record<
-    string,
-    { browser: string; visitors: number; fill: string }
-  > = {
-    chrome: { browser: "chrome", visitors: 0, fill: "var(--chart-chrome)" },
-    safari: { browser: "safari", visitors: 0, fill: "var(--chart-safari)" },
-    firefox: { browser: "firefox", visitors: 0, fill: "var(--chart-firefox)" },
-    edge: { browser: "edge", visitors: 0, fill: "var(--chart-edge)" },
-    other: { browser: "other", visitors: 0, fill: "var(--chart-other)" },
-  };
-
-  visits.forEach((visit) => {
-    const b = visit.browser.toLowerCase();
-    if (b.includes("chrome")) browserMap.chrome.visitors += 1;
-    else if (b.includes("safari")) browserMap.safari.visitors += 1;
-    else if (b.includes("firefox")) browserMap.firefox.visitors += 1;
-    else if (b.includes("edge")) browserMap.edge.visitors += 1;
-    else browserMap.other.visitors += 1;
-  });
-
-  return Object.values(browserMap);
-}
 
 export function ChartPie({ visits }: { visits: Visit[] }) {
   // Use dummyVisitData for now, can switch to real data later
@@ -76,7 +54,7 @@ export function ChartPie({ visits }: { visits: Visit[] }) {
   );
 
   return (
-    <Card className="flex flex-col rounded-2xl">
+    <Card className="flex flex-col rounded-2xl gap-0 pb-0">
       <CardHeader className="items-center pb-0">
         <CardTitle>Browsers</CardTitle>
         {/* <CardDescription>January - June 2025</CardDescription> */}
@@ -84,7 +62,7 @@ export function ChartPie({ visits }: { visits: Visit[] }) {
       <CardContent className="flex-1 pb-0 ">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square min-h-[250px]"
+          className="mx-auto aspect-square min-h-[150px] min-w-[200px]"
         >
           <PieChart>
             <ChartTooltip
