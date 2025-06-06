@@ -52,7 +52,7 @@ export default function WorldMap({
 
   return (
     <div
-      className="w-full h-[40vh] rounded-lg relative font-sans"
+      className="min-w-[30vw] w-fit max-h-[40vh] h-fit rounded-lg relative font-sans"
       style={{
         background: theme === "dark" ? "black" : "white",
       }}
