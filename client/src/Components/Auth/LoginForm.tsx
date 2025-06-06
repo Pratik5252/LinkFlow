@@ -1,8 +1,10 @@
 import { AuthFormBase } from "./AuthFormBase";
 import { login } from "@/services/auth";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function LoginForm({ onSwitch }: { onSwitch: () => void }) {
+  const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
 
   const handleLogin = async (email: string, password: string) => {
@@ -13,6 +15,7 @@ export function LoginForm({ onSwitch }: { onSwitch: () => void }) {
       if (res.token) {
         localStorage.setItem("token", res.token);
         setError(null);
+        navigate("/");
       } else {
         setError(res.message || "Login Failed");
       }
