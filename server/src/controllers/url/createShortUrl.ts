@@ -10,11 +10,13 @@ export const createShortUrl = async (req: CustomRequest, res: Response) => {
 
   if (!originalUrl) {
     res.status(400).json({ message: "Original Url is Required" });
+    return;
   }
   try {
     const urlExist = await prisma.url.findUnique({ where: { originalUrl } });
     if (urlExist) {
       res.status(409).json({ message: "Url Already exist" });
+      return;
     }
 
     const shortUrl = customUrl || nanoid(7);
