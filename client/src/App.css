@@ -36,7 +36,6 @@
   --color-sidebar: var(--sidebar);
   --color-desktop: var(--chart-6);
   --color-mobile: var(--chart-7);
-  --color-chrome: var(--chart-chrome);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
@@ -78,6 +77,11 @@
   --chart-firefox: oklch(0.735 0.172 259.5);
   --chart-edge: oklch(0.522 0.186 259.5);
   --chart-other: oklch(0.312 0.079 259.5);
+  --chart-android: oklch(0.819 0.13 230.2);
+  --chart-windows: oklch(0.735 0.172 235.2);
+  --chart-macos: oklch(0.735 0.172 259.5);
+  --chart-linux: oklch(0.522 0.186 259.5);
+  --chart-ios: oklch(0.312 0.079 259.5);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -119,6 +123,11 @@
   --chart-firefox: oklch(0.735 0.172 259.5);
   --chart-edge: oklch(0.422 0.186 259.5);
   --chart-other: oklch(0.212 0.045 259.5);
+  --chart-android: oklch(0.735 0.172 235.2);
+  --chart-windows: oklch(0.312 0.079 235.2);
+  --chart-macos: oklch(0.735 0.172 259.5);
+  --chart-linux: oklch(0.422 0.186 259.5);
+  --chart-ios: oklch(0.212 0.045 259.5);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
