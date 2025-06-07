@@ -1,17 +1,15 @@
-import { getUrls, getUrlVisits } from "@/services/url";
+import { getUrls } from "@/services/url";
 import type { Url } from "@/types/url";
 import { useEffect, useState } from "react";
 import Dropdown from "../Dropdown";
-import type { Visit } from "@/types/visits";
-import UrlVisits from "@/Components/Urls/UrlVisits";
-
+import { Link } from "react-router-dom";
+import { Button } from "../ui/button";
+import { Plus } from "lucide-react";
+import { Link as URL } from "lucide-react";
+import ShortUrl from "./ShortUrl";
 const GetUrls = () => {
   const [urls, setUrls] = useState<Url[]>([]);
-  const [open, setOpen] = useState(false);
-  const [selectedUrl, setSelectedUrl] = useState<Url | null>(null);
-  const [visits, setVisits] = useState<Visit[]>([]);
-  const [visitCount, setVisitCount] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   const fetchUrl = async () => {
     const res = await getUrls();
@@ -20,91 +18,83 @@ const GetUrls = () => {
 
   useEffect(() => {
     fetchUrl();
-
     const interval = setInterval(() => {
       fetchUrl();
     }, 5000);
-
     return () => clearInterval(interval);
   }, []);
 
-  const handleModel = async (url: Url) => {
-    setSelectedUrl(url);
+  const handleUrl = () => {
     setOpen(true);
-    setLoading(true);
-    try {
-      const data = await getUrlVisits(url.id);
-      setVisits(data.visits);
-      setVisitCount(data.visitCount);
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (
     <div className="max-w-6xl mx-auto mt-10 h-full w-full">
       {/* Table Header */}
-      <div className="font-semibold py-2 border-b text-secondary-foreground text-3xl">
-        <div>
-          <p>Your URLs 🔗</p>
+      <div className=" py-2 border-b text-secondary-foreground">
+        <div className="flex justify-between">
+          <div className="flex gap-2 items-center text-xl font-semibold">
+            Your URLs{" "}
+            <span>
+              <URL size={20} />
+            </span>
+          </div>
+          <Button variant="link" onClick={handleUrl}>
+            Add Url <Plus size={16} className="p-0 m-0" />{" "}
+          </Button>
         </div>
       </div>
       {/* Table Rows */}
-      {urls.map((url) => (
-        <div
-          onClick={() => handleModel(url)}
-          key={url.shortLink}
-          className="flex items-center px-4 py-4 border-b rounded-md bg-gray-100 border my-2 text-secondary-foreground text-xs"
-        >
-          <div className="grid grid-cols-4 gap-4 grow">
-            <div>
-              <div className="text-gray-500 mb-0.5">Original URL</div>
-              <a
-                href={url.originalUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="truncate text-blue-500"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {url.originalUrl}
-              </a>
+      <div className="mt-4 px-4">
+        {urls.map((url) => (
+          <Link to={`/visit/${url.id}`}>
+            <div
+              key={url.shortLink}
+              className="flex items-center px-4 py-4 rounded-md bg-gray-100 border my-2 text-secondary-foreground text-xs motion-safe:hover:scale-x-[1.01] duration-200 motion-safe:hover:shadow-2xs transition-all"
+            >
+              <div className="grid grid-cols-4 gap-4 grow">
+                <div>
+                  <div className="text-gray-500 mb-0.5">Original URL</div>
+                  <a
+                    href={url.originalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="truncate text-blue-500"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {url.originalUrl}
+                  </a>
+                </div>
+                <div>
+                  <div className="text-gray-500 mb-0.5">Short URL</div>
+                  <a
+                    href={url.shortLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="truncate text-blue-500"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {url.shortLink}
+                  </a>
+                </div>
+                <div>
+                  <div className="text-gray-500 mb-0.5">Visits</div>
+                  <p>{url._count.visits}</p>
+                </div>
+                <div>
+                  <div className="text-gray-500 mb-0.5">Created At</div>
+                  <p>{url.createdAt.split("T")[0]}</p>
+                </div>
+              </div>
+              <div className="flex-none">
+                <Dropdown />
+              </div>
             </div>
-            <div>
-              <div className="text-gray-500 mb-0.5">Short URL</div>
-              <a
-                href={url.shortLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="truncate text-blue-500"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {url.shortLink}
-              </a>
-            </div>
-            <div>
-              <div className="text-gray-500 mb-0.5">Visits</div>
-              <p>{url._count.visits}</p>
-            </div>
-            <div>
-              <div className="text-gray-500 mb-0.5">Created At</div>
-              <p>{url.createdAt.split("T")[0]}</p>
-            </div>
-          </div>
-          <div className="flex-none">
-            <Dropdown />
-          </div>
-        </div>
-      ))}
-      <UrlVisits
-        open={open}
-        onOpenChange={setOpen}
-        url={selectedUrl}
-        visits={visits}
-        visitCount={visitCount}
-        loading={loading}
-      />
+          </Link>
+        ))}
+      </div>
+      <ShortUrl open={open} onOpenChange={setOpen}/>
     </div>
   );
 };
-
 export default GetUrls;
