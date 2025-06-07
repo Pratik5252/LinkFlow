@@ -5,23 +5,25 @@ import Dashboard from "./Components/Dashboard";
 import ProtechedRoute from "./Components/Auth/ProtechedRoute";
 // import Navbar from "./Components/Navbar";
 import Layout from "./Components/Layout";
+import VisualData from "./Components/VisualData";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/auth" element={<AuthForm />} />
         <Route
           path="/"
           element={
             <ProtechedRoute>
-              {/* <Navbar /> */}
-              <Layout>
-                <Dashboard />
-              </Layout>
+              <Layout />
             </ProtechedRoute>
           }
-        />
-        <Route path="/auth" element={<AuthForm />} />
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="visit/:urlId" element={<VisualData />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

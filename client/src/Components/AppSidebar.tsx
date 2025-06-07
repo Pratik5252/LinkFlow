@@ -1,8 +1,9 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
-
+import { LayoutDashboard } from "lucide-react";
+import { Link } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -15,47 +16,27 @@ import {
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: LayoutDashboard,
   },
 ];
 
 export function AppSidebar() {
   return (
-    <Sidebar variant="inset" className="overflow-hidden">
+    <Sidebar variant="inset" className="overflow-hidden border-r">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent>
+          <SidebarGroupContent className="mt-4">
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link to={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -63,6 +44,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>fas</SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
