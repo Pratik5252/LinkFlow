@@ -11,3 +11,18 @@ export interface Url {
   shortLink: string;
 }
 
+export interface shortUrlPayload {
+  originalUrl: string;
+  customUrl?: string;
+  title?: string;
+}
+
+export interface shortUrlResponse {
+  id: string;
+  userId: string;
+  originalUrl: string;
+  shortUrl: string;
+  title?: string;
+  createdAt: string;
+  shortLink: string;
+}
