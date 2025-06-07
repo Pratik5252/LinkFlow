@@ -1,45 +1,39 @@
 import type { Url } from "@/types/url";
 import type { Visit } from "@/types/visits";
-import { Dialog, DialogContent, DialogHeader } from "@/Components/ui/dialog";
 import { ChartLine } from "../Charts/ChartLine";
 import { ChartPie } from "../Charts/CharPie";
 import { WorldMapVisits } from "../Charts/WorldMapVisits";
 import { ChartBar } from "../Charts/ChartBar";
 
 interface UrlVisits {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
   url: Url | null;
   visits: Visit[];
   visitCount: number;
   loading: boolean;
 }
 
-const UrlVisits = ({
-  open,
-  onOpenChange,
-  url,
-  visits,
-  visitCount,
-  loading,
-}: UrlVisits) => {
+const UrlVisits = ({ url, visits, visitCount, loading }: UrlVisits) => {
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="h-fit w-fit">
-        <DialogHeader>Visits History</DialogHeader>
-        <div className="flex h-fit w-full gap-2">
-          <div className="flex flex-col gap-2">
+    <div className=" w-full sm:max-w-6xl h-full flex justify-center items-center">
+      <div className="h-full w-[70vw] gap-2">
+        <div className="self-start mb-2">
+          <h2>Visits History</h2>
+        </div>
+        <div className="flex h-fit w-[70vw] gap-2 justify-center">
+          <div className="flex flex-col gap-2 w-full">
             <div className="border p-6 pt-2 text-left rounded-2xl shadow-2xs">
               <p className="text-3xl font-semibold">Total Visit</p>
-              <p className="text-6xl">{url?._count.visits}</p>
+              <p className="text-6xl">{visitCount}</p>
             </div>
+
             <div className="flex flex-col gap-2 h-full">
               <ChartPie visits={visits} />
-              <div className="border rounded-2xl h-full p-6">Empty Container</div>
+              <div className="border rounded-2xl h-full p-6">
+                Empty Container
+              </div>
             </div>
           </div>
-
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 w-full">
             <div className="flex gap-2 w-full">
               <ChartBar visits={visits} />
               <WorldMapVisits visits={visits} />
@@ -47,8 +41,8 @@ const UrlVisits = ({
             <ChartLine visits={visits} />
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   );
 };
 
