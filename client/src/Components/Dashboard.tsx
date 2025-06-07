@@ -3,10 +3,8 @@ import GetUrls from "./Urls/GetUrls";
 
 const Dashboard = () => {
   return (
-    <div>
-      <div>
-        <GetUrls />
-      </div>
+    <div className="w-full h-full">
+      <GetUrls />
     </div>
   );
 };

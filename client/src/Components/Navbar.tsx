@@ -9,8 +9,8 @@ function Navbar() {
     navigate("/auth");
   };
   return (
-    <div className="w-full">
-      <div className="w-screen flex justify-between px-4 py-2">
+    <div className="w-full border-b border">
+      <div className="w-full flex justify-between items-center px-4 py-2">
         <div>
           <p>Dashboard</p>
         </div>

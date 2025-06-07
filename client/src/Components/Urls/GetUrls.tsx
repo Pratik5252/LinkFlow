@@ -42,7 +42,7 @@ const GetUrls = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto mt-10">
+    <div className="max-w-6xl mx-auto mt-10 h-full w-full">
       {/* Table Header */}
       <div className="font-semibold py-2 border-b text-secondary-foreground text-3xl">
         <div>
