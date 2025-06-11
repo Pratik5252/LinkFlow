@@ -30,7 +30,7 @@ model Url {
   title       String?
   createdAt   DateTime @default(now())
 
-  user   User    @relation(fields: [userId], references: [id])
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   visits Visit[]
 }
 
@@ -44,5 +44,5 @@ model Visit {
   device    String
   timestamp DateTime @default(now())
 
-  url Url @relation(fields: [urlId], references: [id])
+  url Url @relation(fields: [urlId], references: [id], onDelete: Cascade)
 }
