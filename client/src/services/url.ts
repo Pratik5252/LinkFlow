@@ -1,13 +1,15 @@
 import type { shortUrlPayload, shortUrlResponse, Url } from "@/types/url";
 import type { VisitResponse } from "@/types/visits";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const getUrls = async (): Promise<Url[]> => {
   const token = localStorage.getItem("token");
   if (!token) {
     throw new Error("Unauthorized");
   }
   try {
-    const res = await fetch(`http://localhost:3000/api/url/`, {
+    const res = await fetch(`${API_URL}/url/`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -30,7 +32,7 @@ export const getUrlVisits = async (urlId: string): Promise<VisitResponse> => {
     throw new Error("Unauthorized");
   }
   try {
-    const res = await fetch(`http://localhost:3000/api/url/${urlId}/visits`, {
+    const res = await fetch(`${API_URL}/url/${urlId}/visits`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -54,7 +56,7 @@ export const createShortUrl = async (
     throw new Error("Unauthorized");
   }
   try {
-    const res = await fetch(`http://localhost:3000/api/url/`, {
+    const res = await fetch(`${API_URL}/url/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,13 +64,40 @@ export const createShortUrl = async (
       },
       body: JSON.stringify(payload),
     });
-    
+    const data = await res.json();
+
     if (!res.ok) {
-      throw new Error("Failed to fetch visit data");
+      throw new Error(
+        data.message || data.error || "Failed to create short URL"
+      );
     }
 
-    return res.json() as Promise<shortUrlResponse>;
+    return data as shortUrlResponse;
   } catch (error) {
-    throw new Error("Something went wrong");
+    throw new Error(error.message || "Something went wrong");
+  }
+};
+
+export const deleteUrl = async (urlId: string) => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("Unauthorized");
+  }
+  try {
+    const res = await fetch(`${API_URL}/url/${urlId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || data.error || "Failed to delete teh Url");
+    }
+    return data;
+  } catch (error) {
+    throw new Error(error.message || "Something went wrong");
   }
 };
