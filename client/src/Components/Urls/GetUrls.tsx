@@ -47,11 +47,8 @@ const GetUrls = () => {
       {/* Table Rows */}
       <div className="mt-4 px-4">
         {urls.map((url) => (
-          <Link to={`/visit/${url.id}`}>
-            <div
-              key={url.shortLink}
-              className="flex items-center px-4 py-4 rounded-md bg-gray-100 border my-2 text-secondary-foreground text-xs motion-safe:hover:scale-x-[1.01] duration-200 motion-safe:hover:shadow-2xs transition-all"
-            >
+          <Link to={`/visit/${url.id}`} key={url.shortLink}>
+            <div className="flex items-center px-4 py-4 rounded-md bg-gray-100 border my-2 text-secondary-foreground text-xs motion-safe:hover:scale-x-[1.01] duration-200 motion-safe:hover:shadow-2xs transition-all">
               <div className="grid grid-cols-4 gap-4 grow">
                 <div>
                   <div className="text-gray-500 mb-0.5">Original URL</div>
@@ -87,7 +84,7 @@ const GetUrls = () => {
                 </div>
               </div>
               <div className="flex-none">
-                <Dropdown />
+                <Dropdown urlId={url.id} />
               </div>
             </div>
           </Link>

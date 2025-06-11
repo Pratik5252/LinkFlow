@@ -4,9 +4,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
+import { deleteUrl } from "@/services/url";
 import { DynamicIcon } from "lucide-react/dynamic";
 
-const Dropdown = () => {
+const Dropdown = (urlId: { urlId: string }) => {
+  const handleDelete = async (e) => {
+    e.stopPropagation();
+
+    await deleteUrl(urlId.urlId);
+  };
   return (
     <div>
       <DropdownMenu>
@@ -22,7 +28,7 @@ const Dropdown = () => {
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer justify-between"
-            onClick={(e) => e.stopPropagation()}
+            onClick={handleDelete}
           >
             Delete
             <DynamicIcon name="trash" size={20} />
