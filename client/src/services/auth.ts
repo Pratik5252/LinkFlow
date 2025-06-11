@@ -22,8 +22,10 @@ export interface RegisterResponse {
   };
 }
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export async function login(payload: LoginPayload): Promise<LoginResponse> {
-  const res = await fetch("http://localhost:3000/api/auth/login", {
+  const res = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -39,7 +41,7 @@ export async function login(payload: LoginPayload): Promise<LoginResponse> {
 export async function register(
   payload: RegisterPayload
 ): Promise<RegisterResponse> {
-  const res = await fetch("http://localhost:3000/api/auth/register", {
+  const res = await fetch(`${API_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
