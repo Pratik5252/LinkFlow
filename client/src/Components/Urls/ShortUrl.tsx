@@ -1,10 +1,14 @@
-import { Dialog, DialogContent, DialogHeader } from "@/Components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/Components/ui/dialog";
 import { createShortUrl } from "@/services/url";
 import { useState, type FormEvent } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
-import { DialogTitle } from "@radix-ui/react-dialog";
 
 interface shortUrlProps {
   open: boolean;
@@ -17,12 +21,16 @@ const ShortUrl = ({ open, onOpenChange }: shortUrlProps) => {
   const [title, setTitle] = useState("");
   const [error, setError] = useState("");
 
+  const resetFields = () => {
+    setError("");
+    setOriginalUrl("");
+    setCustomUrl("");
+    setTitle("");
+  };
+  
   const handleOpenChange = (isOpen: boolean) => {
     if (!isOpen) {
-      setError("");
-      setOriginalUrl("");
-      setCustomUrl("");
-      setTitle("");
+      resetFields();
     }
     onOpenChange(isOpen);
   };
@@ -32,6 +40,8 @@ const ShortUrl = ({ open, onOpenChange }: shortUrlProps) => {
     setError("");
     try {
       await createShortUrl({ originalUrl, customUrl, title });
+      resetFields();
+      onOpenChange(false);
     } catch (error: any) {
       setError(error.message);
     }
@@ -56,7 +66,7 @@ const ShortUrl = ({ open, onOpenChange }: shortUrlProps) => {
                 id="originalurl"
                 type="url"
                 value={originalUrl}
-                // required
+                placeholder="Enter the URL"
                 onChange={(e) => setOriginalUrl(e.target.value)}
               />
             </div>
@@ -70,6 +80,7 @@ const ShortUrl = ({ open, onOpenChange }: shortUrlProps) => {
                 maxLength={7}
                 minLength={3}
                 value={customUrl}
+                placeholder="Enter Custom Name"
                 onChange={(e) => setCustomUrl(e.target.value)}
               />
             </div>
@@ -81,6 +92,7 @@ const ShortUrl = ({ open, onOpenChange }: shortUrlProps) => {
                 id="title"
                 type="text"
                 value={title}
+                placeholder="Enter Title"
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
