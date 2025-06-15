@@ -21,15 +21,8 @@ export default function WorldMap({
   theme = "light",
   visits,
 }: MapProps) {
-  const svgRef = useRef<SVGSVGElement>(null);
-  const [tooltip, setTooltip] = useState<{
-    x: number;
-    y: number;
-    label: string;
-  } | null>(null);
-
   const svgMap = useMemo(() => {
-    const map = new DottedMap({ height: 100, grid: "diagonal" });
+    const map = new DottedMap({ height: 30, grid: "diagonal" });
     return map.getSVG({
       radius: 0.22,
       color: theme === "dark" ? "#FFFFFF40" : "#00000040",
@@ -37,6 +30,15 @@ export default function WorldMap({
       backgroundColor: theme === "dark" ? "black" : "white",
     });
   }, [theme]);
+
+  const svgRef = useRef<SVGSVGElement>(null);
+
+  const [tooltip, setTooltip] = useState<{
+    x: number;
+    y: number;
+    label: string;
+  } | null>(null);
+
   // Use the actual SVG size from DottedMap for correct projection
   const MAP_WIDTH = 810;
   const MAP_HEIGHT = 510;
@@ -70,11 +72,10 @@ export default function WorldMap({
         viewBox={`0 0 800 400`}
         className="w-full h-full absolute inset-0 pointer-events-auto select-none"
       >
-        {dots.map((dot, i) => {
+        {dots.slice(0, 100).map((dot, i) => {
           const pt = projectPoint(dot.lat, dot.lng);
           return (
             <g key={`point-${i}`}>
-              {/* Invisible larger circle for easier hover */}
               <circle
                 cx={pt.x}
                 cy={pt.y}
