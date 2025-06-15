@@ -44,10 +44,8 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-// Helper to aggregate browser data from visits
-
 export function ChartPie({ visits }: { visits: Visit[] }) {
-  // Use dummyVisitData for now, can switch to real data later
+  // You can replace the current dummyVisitData with real data by dummyVisitData.visits -> visits
   const chartData = React.useMemo(
     () => getBrowserPieData(dummyVisitData.visits),
     []

@@ -28,19 +28,11 @@ export function WorldMapVisits({ visits }: { visits: Visit[] }) {
             ])
         ).values()
       ),
-    [visits]
+    []
   );
 
   return (
     <div className=" dark:bg-black bg-white w-fit border rounded-2xl overflow-hidden p-2 grow">
-      {/* <div className="max-w-7xl mx-auto text-center">
-        <p className="font-bold text-xl md:text-4xl dark:text-white text-black">
-          Visitor Locations
-        </p>
-        <p className="text-sm md:text-lg text-neutral-500 max-w-2xl mx-auto py-4">
-          Showing unique cities from your visitor data.
-        </p>
-      </div> */}
       <WorldMap dots={points} visits={visits} />
     </div>
   );

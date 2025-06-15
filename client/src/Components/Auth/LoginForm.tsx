@@ -1,3 +1,4 @@
+// src/Components/Auth/LoginForm.tsx
 import { AuthFormBase } from "./AuthFormBase";
 import { login } from "@/services/auth";
 import { useState } from "react";
@@ -10,8 +11,6 @@ export function LoginForm({ onSwitch }: { onSwitch: () => void }) {
   const handleLogin = async (email: string, password: string) => {
     try {
       const res = await login({ email, password });
-      console.log(res);
-
       if (res.token) {
         localStorage.setItem("token", res.token);
         setError(null);
