@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import prisma from "../../prisma/prismaClient";
 import { JWT_EXPIRES_IN, JWT_SECRET } from "../../config/jwt";
+import { generateToken } from "../../utils/generateToken";
+import { strict } from "assert";
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -13,16 +15,14 @@ export const login = async (req: Request, res: Response) => {
       return;
     }
 
-    const match = await bcrypt.compare(password, user.password);
+    const match = await bcrypt.compare(password, user.password!);
 
     if (!match) {
       res.status(400).json({ message: "Invalid Credentials" });
       return;
     }
 
-    const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
-      expiresIn: JWT_EXPIRES_IN,
-    });
+    const token = generateToken(user.id);
 
     res.status(201).json({ message: "Login Successful", token });
   } catch (err) {
