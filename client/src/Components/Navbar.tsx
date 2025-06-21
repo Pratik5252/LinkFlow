@@ -2,6 +2,7 @@ import { logout } from "@/utils/logout";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { SidebarTrigger } from "./ui/sidebar";
+import { ModeToggle } from "./Utils/modeToggle";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ function Navbar() {
     navigate("/auth");
   };
   return (
-    <div className="w-full border-b">
+    <div className="w-full border-b bg-background">
       <div className="w-full flex justify-between items-center">
         <div className="flex items-center h-full">
           <div className="flex justify-between items-center border-r h-14 w-14">
@@ -22,13 +23,16 @@ function Navbar() {
         </div>
         <div className="w-fit flex justify-between items-center grow px-4">
           <p>Dashboard</p>
-          <Button
-            variant="outline"
-            className="cursor-pointer rounded-xs"
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              className="cursor-pointer rounded-xs"
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+            <ModeToggle />
+          </div>
         </div>
       </div>
     </div>
