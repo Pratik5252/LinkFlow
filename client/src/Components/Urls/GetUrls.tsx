@@ -103,7 +103,7 @@ const GetUrls = () => {
               <TooltipTrigger className="h-full mt-0.5">
                 <Info size={12} strokeWidth={1} />
               </TooltipTrigger>
-              <TooltipContent className="border bg-accent text-accent-foreground text-xs">
+              <TooltipContent className="bg-secondary text-secondary-foreground border text-xs">
                 To enable analytics, go to the URL settings and verify your
                 website ownership.
               </TooltipContent>
