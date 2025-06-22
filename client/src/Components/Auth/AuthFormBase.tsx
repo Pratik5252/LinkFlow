@@ -40,7 +40,7 @@ export function AuthFormBase({
 
   return (
     <div className={cn("flex flex-col gap-6")}>
-      <Card>
+      <Card className="bg-background">
         <CardHeader>
           <CardTitle>{title}</CardTitle>
           <CardDescription>{description}</CardDescription>
@@ -70,7 +70,7 @@ export function AuthFormBase({
                 />
               </div>
               {error && <div className="text-red-500 text-xs">{error}</div>}
-              <Button type="submit" className="w-full">
+              <Button variant="default" type="submit" className="w-full cursor-pointer">
                 {submitLabel}
               </Button>
             </div>

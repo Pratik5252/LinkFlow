@@ -3,7 +3,7 @@ import GetUrls from "./Urls/GetUrls";
 
 const Dashboard = () => {
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full bg-background">
       <GetUrls />
     </div>
   );

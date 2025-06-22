@@ -21,7 +21,7 @@ const UrlVisits = ({ url, visits, visitCount, loading }: UrlVisits) => {
         </div>
         <div className="flex h-fit w-[70vw] gap-2 justify-center">
           <div className="flex flex-col gap-2 w-full">
-            <div className="border p-6 pt-2 text-left rounded-2xl shadow-2xs">
+            <div className="bg-card  border p-6 pt-2 text-left rounded-2xl shadow-2xs">
               <p className="text-3xl font-semibold">Total Visit</p>
               <p className="text-6xl">{visitCount}</p>
             </div>
