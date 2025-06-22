@@ -11,14 +11,14 @@ interface MapPoint {
 interface MapProps {
   dots?: MapPoint[];
   dotColor?: string;
-  theme?: "light" | "dark";
+  theme?: "light" | "dark" | "system";
   visits: Visit[];
 }
 
 export default function WorldMap({
   dots = [],
   dotColor,
-  theme = "light",
+  theme,
   visits,
 }: MapProps) {
   const svgMap = useMemo(() => {

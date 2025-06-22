@@ -2,8 +2,12 @@ import WorldMap from "@/Components/ui/world-map";
 import { dummyVisitData } from "@/__mocks__/dummyVisitData";
 import type { Visit } from "@/types/visits";
 import { useMemo } from "react";
+import { useTheme } from "../theme-provider";
 
 export function WorldMapVisits({ visits }: { visits: Visit[] }) {
+  const { theme } = useTheme();
+  console.log(theme);
+
   const points = useMemo(
     () =>
       Array.from(
@@ -33,7 +37,7 @@ export function WorldMapVisits({ visits }: { visits: Visit[] }) {
 
   return (
     <div className=" dark:bg-black bg-white w-fit border rounded-2xl overflow-hidden p-2 grow">
-      <WorldMap dots={points} visits={visits} />
+      <WorldMap dots={points} visits={visits} theme={theme} />
     </div>
   );
 }
