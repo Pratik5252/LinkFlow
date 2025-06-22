@@ -1,11 +1,8 @@
-import { deleteUrl, getUrls, getUrlVisits } from "@/services/url";
+import { getUrls, getUrlVisits } from "@/services/url";
 import type { Url } from "@/types/url";
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "../ui/button";
 import {
   Link as URL,
-  Plus,
   Settings,
   Trash,
   Info,
@@ -13,15 +10,25 @@ import {
   ChevronUp,
   ChevronsUpDown,
 } from "lucide-react";
-import ShortUrl from "./ShortUrl";
+
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Copy from "../Utils/Copy";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { useSortableData } from "@/hooks/useSortableData";
+import CreateShortUrl from "./CreateShortUrl";
+import { useState } from "react";
+import DeleteUrl from "./DeleteUrl";
 
 const GetUrls = () => {
+  const [deleteDialog, setDeleteDialog] = useState<{
+    isOpen: boolean;
+    url: Url | null;
+  }>({
+    isOpen: false,
+    url: null,
+  });
+
   const queryClient = useQueryClient();
-  const [open, setOpen] = useState<boolean>(false);
 
   const {
     data: urls = [],
@@ -56,11 +63,6 @@ const GetUrls = () => {
     });
   };
 
-  const handleDelete = async (e, urlId) => {
-    e.stopPropagation();
-    await deleteUrl(urlId);
-  };
-
   const formatDate = (date) => {
     return new Date(date)
       .toLocaleDateString("en-US", {
@@ -71,14 +73,37 @@ const GetUrls = () => {
       .replace(",", "");
   };
 
-  const handleUrl = () => {
-    setOpen(true);
+  const handleDeleteClick = (url: Url) => {
+    setDeleteDialog({
+      isOpen: true,
+      url: url,
+    });
+  };
+
+  const handleDeleteDialogClose = (isOpen: boolean) => {
+    if (!isOpen) {
+      setDeleteDialog({
+        isOpen: false,
+        url: null,
+      });
+    }
+  };
+
+  const handleDeleteSuccess = () => {
+    queryClient.invalidateQueries({ queryKey: ["urls"] });
+    setDeleteDialog({
+      isOpen: false,
+      url: null,
+    });
   };
 
   return (
     <div className="max-w-6xl mx-auto h-full w-full mt-4">
+      <div className="">
+        <CreateShortUrl />
+      </div>
       {/* Table Header */}
-      <div className=" py-2 text-foreground">
+      <div className=" py-2 text-foreground mt-4">
         <div className="flex justify-between">
           <div className="flex gap-2 items-center text-lg font-medium">
             URLs{" "}
@@ -86,9 +111,6 @@ const GetUrls = () => {
               <URL size={20} />
             </span>
           </div>
-          <Button variant="default" onClick={handleUrl} className="rounded-xs">
-            Add Url <Plus size={16} className="p-0 m-0" />{" "}
-          </Button>
         </div>
       </div>
       {/* Table Rows */}
@@ -103,7 +125,7 @@ const GetUrls = () => {
               <TooltipTrigger className="h-full mt-0.5">
                 <Info size={12} strokeWidth={1} />
               </TooltipTrigger>
-              <TooltipContent className="bg-secondary text-secondary-foreground border text-xs">
+              <TooltipContent className="border text-xs">
                 To enable analytics, go to the URL settings and verify your
                 website ownership.
               </TooltipContent>
@@ -132,7 +154,7 @@ const GetUrls = () => {
             {items.map((url) => (
               <div
                 className=" bg-background text-xs text-foreground border-t table-grid"
-                key={url.originalUrl}
+                key={url.id}
               >
                 <div className="flex items-center px-4 py-4 gap-2">
                   <Link
@@ -190,7 +212,7 @@ const GetUrls = () => {
                     />
                   </button>
                   <button
-                    onClick={(e) => handleDelete(e, url.id)}
+                    onClick={() => handleDeleteClick(url)}
                     className="p-1 cursor-pointer justify-between hover:text-red-400"
                   >
                     <Trash size={20} strokeWidth={1} />
@@ -201,7 +223,17 @@ const GetUrls = () => {
           </div>
         )}
       </div>
-      <ShortUrl open={open} onOpenChange={setOpen} />
+      {deleteDialog.url && (
+        <DeleteUrl
+          open={deleteDialog.isOpen}
+          onOpenChange={handleDeleteDialogClose}
+          onDeleteSuccess={handleDeleteSuccess}
+          urlId={deleteDialog.url.id}
+          shortLink={deleteDialog.url.shortLink}
+          originalUrl={deleteDialog.url.originalUrl}
+          title={deleteDialog.url.title ?? ""}
+        />
+      )}
     </div>
   );
 };
