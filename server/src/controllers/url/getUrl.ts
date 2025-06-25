@@ -1,7 +1,7 @@
 import { Response } from "express";
-import { CustomRequest } from "../../middleware/auth";
+import { CustomRequest } from "../../middleware/auth.js";
 import { JwtPayload } from "jsonwebtoken";
-import prisma from "../../prisma/prismaClient";
+import prisma from "../../prisma/prismaClient.js";
 
 export const getAllUrls = async (req: CustomRequest, res: Response) => {
   const userId = (req.user as JwtPayload & { userId: string }).userId;
@@ -16,7 +16,7 @@ export const getAllUrls = async (req: CustomRequest, res: Response) => {
       res.status(404).json({ message: "User not found" });
       return;
     }
-    const urlsWithShotLink = user.urls.map((url) => ({
+    const urlsWithShotLink = user.urls.map((url: any) => ({
       ...url,
       shortLink: `http://localhost:3000/${url.shortUrl}`,
     }));

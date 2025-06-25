@@ -1,9 +1,9 @@
 import { Router } from "express";
-import authenticateToken from "../middleware/auth";
-import { createShortUrl } from "../controllers/url/createShortUrl";
-import { getAllUrls } from "../controllers/url/getUrl";
-import { getUrlVisits } from "../controllers/url/getUrlVisits";
-import { deleteUrl } from "../controllers/url/deleteurl";
+import authenticateToken from "../middleware/auth.js";
+import { createShortUrl } from "../controllers/url/createShortUrl.js";
+import { getAllUrls } from "../controllers/url/getUrl.js";
+import { getUrlVisits } from "../controllers/url/getUrlVisits.js";
+import { deleteUrl } from "../controllers/url/deleteurl.js";
 
 const router = Router();
 

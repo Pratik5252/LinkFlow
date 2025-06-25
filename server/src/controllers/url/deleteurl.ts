@@ -1,6 +1,6 @@
-import { CustomRequest } from "../../middleware/auth";
+import { CustomRequest } from "../../middleware/auth.js";
 import { Response } from "express";
-import prisma from "../../prisma/prismaClient";
+import prisma from "../../prisma/prismaClient.js";
 import { JwtPayload } from "jsonwebtoken";
 import { start } from "repl";
 
@@ -21,7 +21,7 @@ export const deleteUrl = async (req: CustomRequest, res: Response) => {
 
     await prisma.url.delete({ where: { id: urlId } });
     res.status(200).json({ message: `Deleted url ${url?.originalUrl}` });
-  } catch (error) {
+  } catch (error: any) {
     if (process.env.NODE_DEV === "development") {
       res.status(500).json({
         error: "Internal Server error",

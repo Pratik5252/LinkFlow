@@ -1,6 +1,6 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-import { JWT_SECRET } from "../config/jwt";
+import { JWT_SECRET } from "../config/jwt.js";
 
 export interface CustomRequest extends Request {
   user?: JwtPayload | string;

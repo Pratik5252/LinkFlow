@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { getClientDetails } from "../../utils/getLocation";
-import prisma from "../../prisma/prismaClient";
+import { getClientDetails } from "../../utils/getLocation.js";
+import prisma from "../../prisma/prismaClient.js";
 
 export const redirectUrl = async (req: Request, res: Response) => {
   const { shorturl } = req.params;

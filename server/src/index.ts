@@ -1,9 +1,9 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import authRoutes from "./routes/auth";
-import urlRoutes from "./routes/url";
-import { redirectUrl } from "./controllers/url/redirectUrl";
+import authRoutes from "./routes/auth.js";
+import urlRoutes from "./routes/url.js";
+import { redirectUrl } from "./controllers/url/redirectUrl.js";
 
 dotenv.config();
 const app = express();

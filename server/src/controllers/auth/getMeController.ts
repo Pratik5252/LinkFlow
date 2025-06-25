@@ -1,7 +1,7 @@
-import { CustomRequest } from "../../middleware/auth";
+import { CustomRequest } from "../../middleware/auth.js";
 import { JwtPayload } from "jsonwebtoken";
 import { Response } from "express";
-import prisma from "../../prisma/prismaClient";
+import prisma from "../../prisma/prismaClient.js";
 
 export const getMeContoller = async (req: CustomRequest, res: Response) => {
   try {
