@@ -3,7 +3,11 @@
     "sourceMap": true,
     "outDir": "dist",
     "strict": true,
+    "target": "ESNext",
     "lib": ["ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "typeRoots": ["./node_modules/@types", "./src/types"]
   }
