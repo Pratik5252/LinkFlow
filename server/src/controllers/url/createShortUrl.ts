@@ -1,6 +1,6 @@
-import prisma from "../../prisma/prismaClient";
+import prisma from "../../prisma/prismaClient.js";
 import { Response, Request } from "express";
-import { CustomRequest } from "../../middleware/auth";
+import { CustomRequest } from "../../middleware/auth.js";
 import { JwtPayload } from "jsonwebtoken";
 import { nanoid } from "nanoid";
 
@@ -13,7 +13,14 @@ export const createShortUrl = async (req: CustomRequest, res: Response) => {
     return;
   }
   try {
-    const urlExist = await prisma.url.findUnique({ where: { originalUrl } });
+    const urlExist = await prisma.url.findUnique({
+      where: {
+        userId_originalUrl: {
+          userId,
+          originalUrl,
+        },
+      },
+    });
     if (urlExist) {
       res.status(409).json({ message: "Url Already exist" });
       return;
