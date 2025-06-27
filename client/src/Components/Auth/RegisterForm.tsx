@@ -1,24 +1,21 @@
 import { AuthFormBase } from "./AuthFormBase";
 import { register } from "@/services/auth";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export function RegisterForm({ onSwitch }: { onSwitch: () => void }) {
-  const [error, setError] = useState<string | null>(null);
+  const { mutateAsync, error } = useMutation({
+    mutationFn: register,
+    onSuccess: (data) => {
+      toast.success(data.message);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const handleRegister = async (email: string, password: string) => {
-    try {
-      const res = await register({ email, password });
-      console.log(res);
-
-      if (res.user) {
-        setError(null);
-        // Optionally auto-login or redirect
-      } else {
-        setError(res.message || "Registration Failed");
-      }
-    } catch {
-      setError("Something went wrong");
-    }
+    mutateAsync({ email, password });
   };
 
   return (

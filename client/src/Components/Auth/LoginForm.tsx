@@ -1,26 +1,26 @@
 // src/Components/Auth/LoginForm.tsx
 import { AuthFormBase } from "./AuthFormBase";
 import { login } from "@/services/auth";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export function LoginForm({ onSwitch }: { onSwitch: () => void }) {
   const navigate = useNavigate();
-  const [error, setError] = useState<string | null>(null);
+
+  const { mutateAsync, error } = useMutation({
+    mutationFn: login,
+    onSuccess: (data) => {
+      if (data.token) localStorage.setItem("token", data?.token);
+      navigate("/");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const handleLogin = async (email: string, password: string) => {
-    try {
-      const res = await login({ email, password });
-      if (res.token) {
-        localStorage.setItem("token", res.token);
-        setError(null);
-        navigate("/");
-      } else {
-        setError(res.message || "Login Failed");
-      }
-    } catch {
-      setError("Something went wrong");
-    }
+    mutateAsync({ email, password });
   };
 
   return (
@@ -35,3 +35,4 @@ export function LoginForm({ onSwitch }: { onSwitch: () => void }) {
     />
   );
 }
+
