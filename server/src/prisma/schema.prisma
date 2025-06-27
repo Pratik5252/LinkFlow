@@ -16,7 +16,8 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
-  password  String
+  password  String?
+  googleUid String?  @unique
   createdAt DateTime @default(now())
 
   urls Url[]
@@ -25,13 +26,15 @@ model User {
 model Url {
   id          String   @id @default(uuid())
   userId      String
-  originalUrl String   @unique
+  originalUrl String
   shortUrl    String?  @unique
   title       String?
   createdAt   DateTime @default(now())
 
   user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   visits Visit[]
+
+  @@unique([userId, originalUrl])
 }
 
 model Visit {
