@@ -28,7 +28,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ubuntu/Site-Analyse
+            cd /home/ubuntu/Site-Analyse/server
             npm install
             npx prisma generate
             pm2 restart all || pm2 start dist/index.js --name site-analyse-server
