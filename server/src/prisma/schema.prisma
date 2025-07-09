@@ -20,21 +20,50 @@ model User {
   googleUid String?  @unique
   createdAt DateTime @default(now())
 
-  urls Url[]
+  urls          Url[]
+  verifications UrlVerification[]
 }
 
 model Url {
-  id          String   @id @default(uuid())
-  userId      String
-  originalUrl String
-  shortUrl    String?  @unique
-  title       String?
-  createdAt   DateTime @default(now())
+  id               String   @id @default(uuid())
+  userId           String
+  originalUrl      String
+  shortUrl         String?  @unique
+  title            String?
+  createdAt        DateTime @default(now())
+  analyticsEnabled Boolean  @default(false)
 
-  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  visits Visit[]
+  user          User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  visits        Visit[]
+  verifications UrlVerification[]
 
   @@unique([userId, originalUrl])
+}
+
+enum VerificationMethod {
+  meta
+  html
+  dns
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  FAILED
+}
+
+model UrlVerification {
+  id            String             @id @default(uuid())
+  urlId         String
+  userId        String
+  method        VerificationMethod
+  code          String
+  status        VerificationStatus
+  verifiedAt    DateTime?
+  lastCheckTime DateTime?
+
+  url  Url  @relation(fields: [urlId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Visit {
