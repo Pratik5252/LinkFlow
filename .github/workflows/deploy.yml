@@ -30,5 +30,7 @@ jobs:
           script: |
             cd /home/ubuntu/Site-Analyse/server
             npm install
+            cd src
             npx prisma generate
+            cd ..
             pm2 restart all || pm2 start dist/index.js --name site-analyse-server
