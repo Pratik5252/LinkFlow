@@ -34,6 +34,7 @@ jobs:
             npm run build
             cp src/config/serviceAccountKey.json dist/config/serviceAccountKey.json
             cd src
+            npx prisma migrate deploy
             npx prisma generate
             cd ..
             pm2 restart all || pm2 start dist/index.js --name site-analyse-server
