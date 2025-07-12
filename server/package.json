@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.5.0",
+    "@prisma/extension-accelerate": "^2.0.2",
     "@types/geoip-lite": "^1.4.4",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
