@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import {
   Link as URL,
   Settings,
-  Trash,
   Info,
   ChevronDown,
   ChevronUp,
@@ -17,7 +16,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { useSortableData } from "@/hooks/useSortableData";
 import CreateShortUrl from "./CreateShortUrl";
 import { useState } from "react";
-import DeleteUrl from "./DeleteUrl";
+import Delete from "../Utils/Delete";
 
 const GetUrls = () => {
   const [deleteDialog, setDeleteDialog] = useState<{
@@ -71,30 +70,6 @@ const GetUrls = () => {
         year: "numeric",
       })
       .replace(",", "");
-  };
-
-  const handleDeleteClick = (url: Url) => {
-    setDeleteDialog({
-      isOpen: true,
-      url: url,
-    });
-  };
-
-  const handleDeleteDialogClose = (isOpen: boolean) => {
-    if (!isOpen) {
-      setDeleteDialog({
-        isOpen: false,
-        url: null,
-      });
-    }
-  };
-
-  const handleDeleteSuccess = () => {
-    queryClient.invalidateQueries({ queryKey: ["urls"] });
-    setDeleteDialog({
-      isOpen: false,
-      url: null,
-    });
   };
 
   return (
@@ -211,29 +186,23 @@ const GetUrls = () => {
                       className="hover:rotate-45 transition-transform duration-300"
                     />
                   </button>
-                  <button
+                  {/* <button
                     onClick={() => handleDeleteClick(url)}
                     className="p-1 cursor-pointer justify-between hover:text-red-400"
                   >
                     <Trash size={20} strokeWidth={1} />
-                  </button>
+                  </button> */}
+                  <Delete
+                    url={url}
+                    deleteDialog={deleteDialog}
+                    setDeleteDialog={setDeleteDialog}
+                  />
                 </div>
               </div>
             ))}
           </div>
         )}
       </div>
-      {deleteDialog.url && (
-        <DeleteUrl
-          open={deleteDialog.isOpen}
-          onOpenChange={handleDeleteDialogClose}
-          onDeleteSuccess={handleDeleteSuccess}
-          urlId={deleteDialog.url.id}
-          shortLink={deleteDialog.url.shortLink}
-          originalUrl={deleteDialog.url.originalUrl}
-          title={deleteDialog.url.title ?? ""}
-        />
-      )}
     </div>
   );
 };

@@ -75,6 +75,7 @@ const DeleteUrl = ({
       <DialogContent
         className="w-fit min-w-[30vw] max-w-[90vw] h-fit rounded-lg border"
         showCloseButton={false}
+        aria-describedby={undefined}
       >
         <DialogHeader className="space-y-3">
           <div className="flex items-center gap-3">
