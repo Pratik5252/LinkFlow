@@ -20,6 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
 import Logout from "./Utils/Logout";
+import { useAuth } from "@/contexts/AuthContext";
 
 // Menu items.
 const items = [
@@ -36,6 +37,9 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const { user } = useAuth();
+  console.log(user);
+
   return (
     <Sidebar
       variant="floating"
@@ -66,9 +70,28 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
-              <DropdownMenuTrigger asChild className="cursor-pointer border bg-sidebar-accent">
+              <DropdownMenuTrigger
+                asChild
+                className="cursor-pointer border bg-sidebar-accent"
+              >
                 <SidebarMenuButton>
-                  <User /> Username
+                  {user && user.photoURL ? (
+                    <>
+                      <img
+                        src={user?.photoURL || ""}
+                        alt=""
+                        srcSet=""
+                        width={20}
+                        height={20}
+                        className="rounded-full"
+                      />
+                      <p>{user.displayName}</p>
+                    </>
+                  ) : (
+                    <>
+                      <User /> <p>Username</p>
+                    </>
+                  )}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
