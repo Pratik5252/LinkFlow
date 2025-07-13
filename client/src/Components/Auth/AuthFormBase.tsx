@@ -14,6 +14,7 @@ import { signInWithGoogle } from "@/services/auth";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface AuthFormBaseProps {
   title: string;
@@ -39,6 +40,8 @@ export function AuthFormBase({
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validationError, setValidationError] = useState<string | null>("");
 
+  const { setUser } = useAuth();
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -52,8 +55,9 @@ export function AuthFormBase({
 
   const { mutateAsync } = useMutation({
     mutationFn: signInWithGoogle,
-    onSuccess: (data) => {
+    onSuccess: ({ data, result }) => {
       localStorage.setItem("token", data.token);
+      setUser(result.user);
       navigate("/");
     },
     onError: (error) => {

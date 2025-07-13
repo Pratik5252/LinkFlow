@@ -70,7 +70,6 @@ export async function register(
 export const signInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
   const result = await signInWithPopup(auth, provider);
-  console.log(result);
 
   const idToken = await result.user.getIdToken();
 
@@ -87,7 +86,7 @@ export const signInWithGoogle = async () => {
 
     const data = await res.json();
 
-    return data;
+    return { data, result };
   } catch (error) {
     throw new Error(error.message || "Something went wrong");
   }
