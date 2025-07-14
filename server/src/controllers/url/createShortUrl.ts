@@ -4,6 +4,8 @@ import { CustomRequest } from "../../middleware/auth.js";
 import { JwtPayload } from "jsonwebtoken";
 import { nanoid } from "nanoid";
 
+const baseUrl = process.env.BASE_URL;
+
 export const createShortUrl = async (req: CustomRequest, res: Response) => {
   const { originalUrl, customUrl, title } = req.body;
   const userId = (req.user as JwtPayload & { userId: string }).userId;
@@ -37,7 +39,7 @@ export const createShortUrl = async (req: CustomRequest, res: Response) => {
       },
     });
 
-    const shortLink = `http://localhost:3000/${newUrl.shortUrl}`;
+    const shortLink = `${baseUrl}/${newUrl.shortUrl}`;
     res.status(201).json({ ...newUrl, shortLink });
   } catch (err) {
     res.status(500).json({ error: "Failed to create short URL" });
