@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import type { VisitResponse } from "@/types/visits";
 import type { Url } from "@/types/url";
 import { getUrlVisits } from "@/services/url";
-import UrlVisits from "./Urls/UrlVisits";
+import UrlVisits from "../Urls/UrlVisits";
 import { useQuery } from "@tanstack/react-query";
 
 const VisualData = () => {
