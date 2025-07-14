@@ -3,6 +3,7 @@ import { CustomRequest } from "../../middleware/auth.js";
 import { JwtPayload } from "jsonwebtoken";
 import prisma from "../../prisma/prismaClient.js";
 
+const baseUrl = process.env.BASE_URL;
 export const getAllUrls = async (req: CustomRequest, res: Response) => {
   const userId = (req.user as JwtPayload & { userId: string }).userId;
 
@@ -18,7 +19,7 @@ export const getAllUrls = async (req: CustomRequest, res: Response) => {
     }
     const urlsWithShotLink = user.urls.map((url: any) => ({
       ...url,
-      shortLink: `http://localhost:3000/${url.shortUrl}`,
+      shortLink: `${baseUrl}/${url.shortUrl}`,
     }));
 
     res.json(urlsWithShotLink);
