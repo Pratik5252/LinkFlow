@@ -21,7 +21,11 @@ jobs:
 
       - name: Deploy server with rsync
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i private_key.pem" \
+          rsync -avz \
+          --exclude src/.env \
+          --exclude src/config/serviceAccountKey.json \
+          --exclude node_modules \
+          -e "ssh -o StrictHostKeyChecking=no -i private_key.pem" \
             --delete \
             ./server/ ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/Site-Analyse/server/
 
