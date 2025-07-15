@@ -40,4 +40,4 @@ jobs:
             npx prisma migrate deploy
             npx prisma generate
             cd ..
-            pm2 restart all || pm2 start dist/index.js --name site-analyse-server
+            pm2 restart all || pm2 start dist/index.js --name site-insight
