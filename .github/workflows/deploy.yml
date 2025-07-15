@@ -15,14 +15,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Copy server folder to EC2
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "server/"
-          target: "/home/ubuntu/Site-Analyse"
+      - name: Delpoy sserver with rsync
+        run: |
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i ${{secrets.EC2_SSH_KEY}}" \
+          --delete \ 
+          ./server/ ubuntu@${{secrets.EC2_HOST}}:/home/ubuntu/Site-Analyse/server
 
       - name: SSH and restart server
         uses: appleboy/ssh-action@v1.0.0
