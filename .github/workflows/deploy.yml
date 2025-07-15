@@ -15,11 +15,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Delpoy sserver with rsync
+      - name: Deploy server with rsync
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i ${{secrets.EC2_SSH_KEY}}" \
-          --delete \ 
-          ./server/ ubuntu@${{secrets.EC2_HOST}}:/home/ubuntu/Site-Analyse/server
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }}" \
+            --delete \
+            ./server/ ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/Site-Analyse/server/
 
       - name: SSH and restart server
         uses: appleboy/ssh-action@v1.0.0
