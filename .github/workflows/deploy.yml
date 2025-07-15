@@ -14,10 +14,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Write SSH key
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
 
       - name: Deploy server with rsync
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }}" \
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i private_key.pem" \
             --delete \
             ./server/ ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/Site-Analyse/server/
 
