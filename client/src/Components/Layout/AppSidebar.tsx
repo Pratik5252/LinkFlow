@@ -19,7 +19,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
-import Logout from "./Utils/Logout";
+import Logout from "../Utils/Logout";
 import { useAuth } from "@/contexts/AuthContext";
 
 // Menu items.
@@ -38,13 +38,12 @@ const items = [
 
 export function AppSidebar() {
   const { user } = useAuth();
-  console.log(user);
 
   return (
     <Sidebar
-      variant="floating"
+      variant="inset"
       collapsible="offcanvas"
-      className="overflow-hidden border-r"
+      className="overflow-hidden"
     >
       <SidebarContent>
         <SidebarGroup>
@@ -104,7 +103,7 @@ export function AppSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
-      <SidebarRail />
+      {/* <SidebarRail /> */}
     </Sidebar>
   );
 }
