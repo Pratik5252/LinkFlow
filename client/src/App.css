@@ -77,7 +77,7 @@
 
   /* Minimal borders */
   --border: #e4e4e7;
-  --input: #E3E3E3;
+  --input: #e3e3e3;
   --ring: #22c55e;
 
   /* Chart colors preserved */
@@ -100,7 +100,7 @@
   --chart-ios: oklch(0.312 0.079 259.5);
 
   /* Sidebar same as background */
-  --sidebar: #f5f5f5;
+  --sidebar: #f1f1f1;
   --sidebar-foreground: #18181b;
   --sidebar-primary: #22c55e;
   --sidebar-primary-foreground: #ffffff;
@@ -175,7 +175,7 @@
   --chart-ios: oklch(0.212 0.045 259.5);
 
   /* Dark sidebar same as background */
-  --sidebar: #1c1c1e;
+  --sidebar: #121212;
   --sidebar-foreground: #f2f2f7;
   --sidebar-primary: #4ade80;
   --sidebar-primary-foreground: #14532d;
@@ -207,7 +207,7 @@
 }
 
 .table-grid {
-  @apply grid grid-cols-[1fr_1fr_minmax(100px,auto)_minmax(100px,auto)_minmax(100px,auto)_minmax(120px,auto)];
+  @apply grid grid-cols-[1fr_1fr_minmax(100px,auto)_minmax(100px,auto)_minmax(100px,auto)_minmax(170px,auto)];
 }
 
 .DropdownMenuContent {
