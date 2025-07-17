@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AuthForm from "./Components/Auth/AuthForm";
 import "./App.css";
-import Dashboard from "./Components/Dashboard";
+import Dashboard from "./Components/Dashboard/Dashboard";
 import ProtechedRoute from "./Components/Auth/ProtechedRoute";
-import Layout from "./Components/Layout";
-import VisualData from "./Components/VisualData";
-import { ThemeProvider } from "./Components/theme-provider";
+import Layout from "./Components/Layout/Layout";
+import VisualData from "./Components/Data/VisualData";
+import { ThemeProvider } from "./contexts/theme-provider";
 
 const App = () => {
   return (

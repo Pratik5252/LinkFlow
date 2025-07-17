@@ -2,7 +2,7 @@ import WorldMap from "@/Components/ui/world-map";
 import { dummyVisitData } from "@/__mocks__/dummyVisitData";
 import type { Visit } from "@/types/visits";
 import { useMemo } from "react";
-import { useTheme } from "../theme-provider";
+import { useTheme } from "../../contexts/theme-provider";
 
 export function WorldMapVisits({ visits }: { visits: Visit[] }) {
   const { theme } = useTheme();
