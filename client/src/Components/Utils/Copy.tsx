@@ -1,12 +1,13 @@
 import { DynamicIcon } from "lucide-react/dynamic";
 import { useState } from "react";
+import { Button } from "../ui/button";
 
-const Copy = (shortUrl: { shortUrl: string }) => {
+const Copy = ({ url }) => {
   const [copied, setCopied] = useState(true);
 
-  const copyText = (shortUrl: { shortUrl: string }) => {
+  const copyText = () => {
     try {
-      navigator.clipboard.writeText(shortUrl.shortUrl);
+      navigator.clipboard.writeText(url);
       setCopied(false);
       setTimeout(() => {
         setCopied(true);
@@ -17,9 +18,10 @@ const Copy = (shortUrl: { shortUrl: string }) => {
   };
 
   return (
-    <button
-      onClick={() => copyText(shortUrl)}
-      className="cursor-pointer border rounded p-1 text-foreground hover:text-primary transition-all duration-300"
+    <Button
+      variant="outline"
+      onClick={() => copyText()}
+      className="cursor-pointer border text-foreground hover:text-primary transition-all duration-300"
     >
       <DynamicIcon
         name={copied ? "copy" : "check"}
@@ -29,7 +31,7 @@ const Copy = (shortUrl: { shortUrl: string }) => {
           copied ? " " : "text-primary"
         } transition-all duration-300`}
       />
-    </button>
+    </Button>
   );
 };
 
