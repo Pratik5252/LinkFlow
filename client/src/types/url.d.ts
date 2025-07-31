@@ -14,6 +14,17 @@ export interface Url {
     shortLink: string;
 }
 
+export interface PaginatedUrlsResponse {
+    urls: Url[];
+    pagination: {
+        currentPage: number;
+        totalPages: number;
+        totalCount: number;
+        hasNext: boolean;
+        hasPrev: boolean;
+    };
+}
+
 export interface shortUrlPayload {
     originalUrl: string;
     customUrl?: string;
