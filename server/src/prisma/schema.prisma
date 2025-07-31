@@ -20,20 +20,21 @@ model User {
   googleUid String?  @unique
   createdAt DateTime @default(now())
 
-  urls          Url[]
+  urls Url[]
 }
 
 model Url {
-  id               String   @id @default(uuid())
+  id               String    @id @default(uuid())
   userId           String
   originalUrl      String
-  shortUrl         String?  @unique
+  shortUrl         String?   @unique
   title            String?
-  createdAt        DateTime @default(now())
-  analyticsEnabled Boolean  @default(false)
+  createdAt        DateTime  @default(now())
+  analyticsEnabled Boolean   @default(false)
+  lastAccessedAt   DateTime?
 
-  user          User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  visits        Visit[]
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  visits Visit[]
 
   @@unique([userId, originalUrl])
 }
