@@ -1,4 +1,4 @@
-import { getUrls, getUrlVisits } from '@/services/url';
+import { getUrls, getUrlsWithMetrics, getUrlVisits } from '@/services/url';
 import type { Url } from '@/types/url';
 import { Link } from 'react-router-dom';
 import {
@@ -21,6 +21,17 @@ import { Skeleton } from '../ui/skeleton';
 import { NoData } from '@/assets/illustrations/NoData';
 import { UrlOverviewMetrics } from './UrlOverviewMetrics';
 
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from '@/Components/ui/pagination';
+import Dropdown from '../Dropdown';
+
 const GetUrls = () => {
     const [dialog, setDialog] = useState<{
         isOpen: boolean;
@@ -30,19 +41,80 @@ const GetUrls = () => {
         url: null,
     });
 
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(5);
+
+    // Handler to reset page when limit changes
+    const handleLimitChange = (newLimit: number) => {
+        setLimit(newLimit);
+        setPage(1); // Reset to first page when changing items per page
+    };
+
     const queryClient = useQueryClient();
 
+    // Fetch paginated URLs for table display
     const {
-        data: urls = [],
+        data: urlsResponse,
         isLoading,
         error,
-    } = useQuery<Url[]>({
-        queryKey: ['urls'],
-        queryFn: getUrls,
+    } = useQuery({
+        queryKey: ['urls', page, limit], // Include pagination in cache key
+        queryFn: () => getUrls(page, limit),
         refetchInterval: 5000,
         staleTime: 5000,
     });
 
+    // Fetch all URLs with metrics for overview calculations
+    const { data: allUrls = [] } = useQuery({
+        queryKey: ['urls-metrics'],
+        queryFn: () => getUrlsWithMetrics(),
+        refetchInterval: 5000,
+        staleTime: 5000,
+    });
+
+    // Extract URLs array from paginated response
+    const urls = urlsResponse?.urls || [];
+    const pagination = urlsResponse?.pagination;
+
+    // Enhanced pagination handlers with validation
+    const handleNext = () => {
+        if (pagination?.hasNext) {
+            setPage((prev) => prev + 1);
+        }
+    };
+
+    const handlePrevious = () => {
+        if (pagination?.hasPrev) {
+            setPage((prev) => prev - 1);
+        }
+    };
+
+    const handlePageClick = (pageNumber: number) => {
+        setPage(pageNumber);
+    };
+
+    // Generate page numbers for pagination
+    const generatePageNumbers = () => {
+        if (!pagination) return [];
+
+        const { currentPage, totalPages } = pagination;
+        const pages = [];
+        const maxVisible = limit; // Maximum visible page numbers
+
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+        const endPage = Math.min(totalPages, startPage + maxVisible - 1);
+
+        // Adjust start page if we're near the end
+        if (endPage - startPage + 1 < maxVisible) {
+            startPage = Math.max(1, endPage - maxVisible + 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            pages.push(i);
+        }
+
+        return pages;
+    };
     const { items, requestSort, getSortIndicator } = useSortableData(urls);
 
     const renderSortIcon = (key: string) => {
@@ -112,25 +184,45 @@ const GetUrls = () => {
     return (
         <div className="max-w-6xl mx-8 h-full w-full mt-4">
             {/* Overview Metrics - now handles empty state internally */}
-            <UrlOverviewMetrics urls={urls} />
+            <UrlOverviewMetrics urls={allUrls} />
 
             {/* Table Header */}
             {urls.length != 0 ? (
                 <div className=" py-2 text-foreground mt-4 flex justify-between">
-                    <div className="flex justify-between">
+                    <div className="flex justify-between items-center gap-4">
                         <div className="flex gap-2 items-center text-lg font-medium">
                             URLs{' '}
                             <span>
                                 <URL size={20} />
                             </span>
                         </div>
+                        {pagination && (
+                            <div className="text-sm text-muted-foreground">
+                                Showing{' '}
+                                {(pagination.currentPage - 1) * limit + 1} to{' '}
+                                {Math.min(
+                                    pagination.currentPage * limit,
+                                    pagination.totalCount
+                                )}
+                            </div>
+                        )}
+                        <Dropdown
+                            setLimit={handleLimitChange}
+                            currentLimit={limit}
+                        />
                     </div>
-                    <CreateShortUrl text="Create" />
+                    <div className="flex justify-center items-center gap-2">
+                        <CreateShortUrl text="Create" />
+                    </div>
                 </div>
             ) : null}
             {/* Table Rows */}
 
-            <div className="mt-4 rounded-lg overflow-hidden h-full">
+            <div
+                className={`mt-2 rounded-lg overflow-hidden h-[${
+                    3 * limit
+                }vh] mb-2`}
+            >
                 {urls.length > 0 && (
                     <div className="table-grid bg-background text-secondary-foreground  text-sm font-light">
                         <div className="px-4 py-3">Short URL</div>
@@ -261,6 +353,56 @@ const GetUrls = () => {
                     </div>
                 )}
             </div>
+            <Pagination>
+                <PaginationContent>
+                    <PaginationItem>
+                        <PaginationPrevious
+                            onClick={handlePrevious}
+                            className={`cursor-pointer ${
+                                !pagination?.hasPrev
+                                    ? 'pointer-events-none opacity-50'
+                                    : ''
+                            }`}
+                        />
+                    </PaginationItem>
+
+                    {/* Page numbers */}
+                    {generatePageNumbers().map((pageNumber) => (
+                        <PaginationItem key={pageNumber}>
+                            <PaginationLink
+                                onClick={() => handlePageClick(pageNumber)}
+                                isActive={
+                                    pageNumber === pagination?.currentPage
+                                }
+                                className="cursor-pointer"
+                            >
+                                {pageNumber}
+                            </PaginationLink>
+                        </PaginationItem>
+                    ))}
+
+                    {/* Show ellipsis if there are more pages */}
+                    {pagination &&
+                        generatePageNumbers().length > 0 &&
+                        pagination.totalPages >
+                            Math.max(...generatePageNumbers()) && (
+                            <PaginationItem>
+                                <PaginationEllipsis />
+                            </PaginationItem>
+                        )}
+
+                    <PaginationItem>
+                        <PaginationNext
+                            onClick={handleNext}
+                            className={`cursor-pointer ${
+                                !pagination?.hasNext
+                                    ? 'pointer-events-none opacity-50'
+                                    : ''
+                            }`}
+                        />
+                    </PaginationItem>
+                </PaginationContent>
+            </Pagination>
         </div>
     );
 };
