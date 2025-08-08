@@ -8,17 +8,43 @@ const baseUrl = process.env.BASE_URL;
 export const getAllUrls = async (req: CustomRequest, res: Response) => {
     const userId = (req.user as JwtPayload & { userId: string }).userId;
 
+    const search = req.query.search as string;
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
     const skip = (page - 1) * limit;
 
     try {
+        const whereClause = {
+            userId,
+            ...(search && {
+                OR: [
+                    {
+                        originalUrl: {
+                            contains: search,
+                            mode: 'insensitive' as const,
+                        },
+                    },
+                    {
+                        title: {
+                            contains: search,
+                            mode: 'insensitive' as const,
+                        },
+                    },
+                    {
+                        shortUrl: {
+                            contains: search,
+                            mode: 'insensitive' as const,
+                        },
+                    },
+                ],
+            }),
+        };
         const totalUrls = await prisma.url.count({
-            where: { userId },
+            where: whereClause,
         });
 
         const urls = await prisma.url.findMany({
-            where: { userId },
+            where: whereClause,
             include: {
                 _count: { select: { visits: true } },
                 visits: { select: { timestamp: true } },
