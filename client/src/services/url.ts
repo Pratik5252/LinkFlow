@@ -10,19 +10,23 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const getUrls = async (
     page: number = 1,
-    limit: number = 10
+    limit: number = 10,
+    search: string = ''
 ): Promise<PaginatedUrlsResponse> => {
     const token = localStorage.getItem('token');
     if (!token) {
         throw new Error('Unauthorized');
     }
     try {
-        const res = await fetch(`${API_URL}/url/?page=${page}&limit=${limit}`, {
-            method: 'GET',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        const res = await fetch(
+            `${API_URL}/url/?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`,
+            {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
         if (!res.ok) {
             throw new Error('Failed to fetch data');
         }
