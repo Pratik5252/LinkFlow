@@ -2,7 +2,6 @@ import { CustomRequest } from "../../middleware/auth.js";
 import { Response } from "express";
 import prisma from "../../prisma/prismaClient.js";
 import { JwtPayload } from "jsonwebtoken";
-import { start } from "repl";
 
 export const deleteUrl = async (req: CustomRequest, res: Response) => {
   const { urlId } = req.params;
