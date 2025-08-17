@@ -36,7 +36,7 @@ const GetUrls = () => {
         const timer = setTimeout(() => {
             setSearchQuery(search);
             setPage(1);
-        }, 300);
+        }, 500);
         return () => clearTimeout(timer);
     }, [search]);
 
