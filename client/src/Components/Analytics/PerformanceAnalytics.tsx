@@ -3,7 +3,6 @@ import DeviceInsights from '../Charts/DeviceInsights';
 import PerformanceInsights from '../Charts/TrafficSources';
 import AudienceQuality from '../Charts/AudienceQuality';
 import { Skeleton } from '@/Components/ui/skeleton';
-import { Separator } from '@/Components/ui/separator';
 import type { Visit } from '@/types/visits';
 
 interface PerformanceAnalyticsProps {
