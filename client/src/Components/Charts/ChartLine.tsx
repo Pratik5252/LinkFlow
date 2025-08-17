@@ -64,7 +64,7 @@ export function ChartLine({ visits }: { visits: Visit[] }) {
     );
 
     return (
-        <Card className="py-4 sm:py-0 rounded-2xl h-fit w-fit">
+        <Card className="py-4 sm:py-0 h-full flex flex-col">
             <CardHeader className="flex flex-col items-stretch border-b !p-0 sm:flex-row">
                 <div className="flex flex-1 flex-col justify-center gap-1 px-6 pb-3 sm:pb-0">
                     <CardTitle>Visitors</CardTitle>
@@ -95,10 +95,10 @@ export function ChartLine({ visits }: { visits: Visit[] }) {
                     })}
                 </div>
             </CardHeader>
-            <CardContent className="px-2 sm:p-6">
+            <CardContent className="px-2 sm:p-4 flex-1 flex flex-col">
                 <ChartContainer
                     config={chartConfig}
-                    className="flex justify-center items-center h-[200px] w-full min-w-2xl mx-auto aspect-video"
+                    className="flex-1 flex justify-center items-center min-h-[200px] w-full aspect-video"
                 >
                     <LineChart
                         accessibilityLayer
