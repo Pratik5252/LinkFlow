@@ -10,8 +10,7 @@ export function LoginForm({ onSwitch }: { onSwitch: () => void }) {
 
   const { mutateAsync, error } = useMutation({
     mutationFn: login,
-    onSuccess: (data) => {
-      if (data.token) localStorage.setItem("token", data?.token);
+    onSuccess: () => {
       navigate("/");
     },
     onError: (error) => {

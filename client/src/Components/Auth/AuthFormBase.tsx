@@ -55,8 +55,7 @@ export function AuthFormBase({
 
   const { mutateAsync } = useMutation({
     mutationFn: signInWithGoogle,
-    onSuccess: ({ data, result }) => {
-      localStorage.setItem("token", data.token);
+    onSuccess: ({ result }) => {
       setUser(result.user);
       navigate("/");
     },
