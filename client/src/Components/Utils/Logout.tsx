@@ -5,8 +5,8 @@ import { Button } from "../ui/button";
 
 const Logout = () => {
   const navigate = useNavigate();
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate("/auth");
   };
   return (
