@@ -7,9 +7,12 @@ export interface LoginPayload {
 }
 
 export interface LoginResponse {
+  success: boolean;
   message: string;
-  token?: string;
-  error?: string;
+  user?: {
+    email: string;
+    id: string;
+  };
 }
 
 export interface RegisterPayload {
@@ -18,6 +21,7 @@ export interface RegisterPayload {
 }
 
 export interface RegisterResponse {
+  success: boolean;
   message: string;
   user?: {
     email: string;
@@ -32,6 +36,7 @@ export async function login(payload: LoginPayload): Promise<LoginResponse> {
     const res = await fetch(`${API_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify(payload),
     });
 
@@ -42,7 +47,8 @@ export async function login(payload: LoginPayload): Promise<LoginResponse> {
 
     return res.json();
   } catch (error) {
-    throw new Error(error.message || "Something went wrong");
+    const err = error as Error;
+    throw new Error(err.message || "Something went wrong");
   }
 }
 
@@ -53,6 +59,7 @@ export async function register(
     const res = await fetch(`${API_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: 'include', // Include cookies
       body: JSON.stringify(payload),
     });
 
@@ -63,7 +70,8 @@ export async function register(
 
     return res.json();
   } catch (error) {
-    throw new Error(error.message || "Something went wrong");
+    const err = error as Error;
+    throw new Error(err.message || "Something went wrong");
   }
 }
 
@@ -77,6 +85,7 @@ export const signInWithGoogle = async () => {
     const res = await fetch(`${API_URL}/auth/google`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: 'include', // Include cookies
       body: JSON.stringify({ idToken }),
     });
 
@@ -88,6 +97,45 @@ export const signInWithGoogle = async () => {
 
     return { data, result };
   } catch (error) {
-    throw new Error(error.message || "Something went wrong");
+    const err = error as Error;
+    throw new Error(err.message || "Something went wrong");
   }
 };
+
+export async function logout(): Promise<{ success: boolean; message: string }> {
+  try {
+    const res = await fetch(`${API_URL}/auth/logout`, {
+      method: "POST",
+      credentials: 'include', // Include cookies
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || "Logout failed");
+    }
+
+    return res.json();
+  } catch (error) {
+    const err = error as Error;
+    throw new Error(err.message || "Something went wrong");
+  }
+}
+
+export async function deleteUserAccount(): Promise<{ success: boolean; message: string }> {
+  try {
+    const res = await fetch(`${API_URL}/auth/user`, {
+      method: "DELETE",
+      credentials: 'include',
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || "Failed to delete account");
+    }
+
+    return res.json();
+  } catch (error) {
+    const err = error as Error;
+    throw new Error(err.message || "Something went wrong");
+  }
+}
