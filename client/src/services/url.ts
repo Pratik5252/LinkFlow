@@ -13,18 +13,12 @@ export const getUrls = async (
     limit: number = 10,
     search: string = ''
 ): Promise<PaginatedUrlsResponse> => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        throw new Error('Unauthorized');
-    }
     try {
         const res = await fetch(
             `${API_URL}/url/?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`,
             {
                 method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                credentials: 'include', // Include cookies instead of Authorization header
             }
         );
         if (!res.ok) {
@@ -38,16 +32,10 @@ export const getUrls = async (
 };
 
 export const getUrlsWithMetrics = async (): Promise<Url[]> => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        throw new Error('Unauthorized');
-    }
     try {
         const res = await fetch(`${API_URL}/url/metrics`, {
             method: 'GET',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+            credentials: 'include', // Include cookies
         });
 
         if (!res.ok) {
@@ -61,16 +49,10 @@ export const getUrlsWithMetrics = async (): Promise<Url[]> => {
 };
 
 export const getUrlVisits = async (urlId: string): Promise<VisitResponse> => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        throw new Error('Unauthorized');
-    }
     try {
         const res = await fetch(`${API_URL}/url/${urlId}/visits`, {
             method: 'GET',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+            credentials: 'include', // Include cookies
         });
         if (!res.ok) {
             throw new Error('Failed to fetch visit data');
@@ -85,17 +67,13 @@ export const getUrlVisits = async (urlId: string): Promise<VisitResponse> => {
 export const createShortUrl = async (
     payload: shortUrlPayload
 ): Promise<shortUrlResponse> => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        throw new Error('Unauthorized');
-    }
     try {
         const res = await fetch(`${API_URL}/url/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
             },
+            credentials: 'include', // Include cookies
             body: JSON.stringify(payload),
         });
         const data = await res.json();
@@ -108,32 +86,28 @@ export const createShortUrl = async (
 
         return data as shortUrlResponse;
     } catch (error) {
-        throw new Error(error.message || 'Something went wrong');
+        const err = error as Error;
+        throw new Error(err.message || 'Something went wrong');
     }
 };
 
 export const deleteUrl = async (urlId: string) => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        throw new Error('Unauthorized');
-    }
     try {
         const res = await fetch(`${API_URL}/url/${urlId}`, {
             method: 'DELETE',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+            credentials: 'include', // Include cookies
         });
 
         const data = await res.json();
 
         if (!res.ok) {
             throw new Error(
-                data.message || data.error || 'Failed to delete teh Url'
+                data.message || data.error || 'Failed to delete the URL'
             );
         }
         return data;
     } catch (error) {
-        throw new Error(error.message || 'Something went wrong');
+        const err = error as Error;
+        throw new Error(err.message || 'Something went wrong');
     }
 };
