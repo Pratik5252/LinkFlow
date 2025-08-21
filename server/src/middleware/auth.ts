@@ -1,31 +1,32 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
-import { Request, Response, NextFunction } from "express";
-import { JWT_SECRET } from "../config/jwt.js";
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
+import { JWT_SECRET } from '../config/jwt.js';
 
 export interface CustomRequest extends Request {
-  user?: JwtPayload | string;
+    user?: JwtPayload | string;
 }
 function authenticateToken(
-  req: CustomRequest,
-  res: Response,
-  next: NextFunction
+    req: CustomRequest,
+    res: Response,
+    next: NextFunction
 ) {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(" ")[1];
+    // const authHeader = req.headers.authorization;
+    // const token = authHeader && authHeader.split(" ")[1];
+    const token = req.cookies.authToken;
 
-  if (!token) {
-    res.sendStatus(401);
-    return;
-  }
+    if (!token) {
+        res.sendStatus(401);
+        return;
+    }
 
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET as string);
-    req.user = decoded;
-    next();
-  } catch (err) {
-    res.status(400).json({ message: "Token is not valid" });
-    return;
-  }
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET as string);
+        req.user = decoded;
+        next();
+    } catch (err) {
+        res.status(400).json({ message: 'Token is not valid' });
+        return;
+    }
 }
 
 export default authenticateToken;
