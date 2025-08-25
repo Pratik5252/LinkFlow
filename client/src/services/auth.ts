@@ -1,5 +1,5 @@
 import { auth } from "@/firebase";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 
 export interface LoginPayload {
   email: string;
@@ -106,13 +106,14 @@ export async function logout(): Promise<{ success: boolean; message: string }> {
   try {
     const res = await fetch(`${API_URL}/auth/logout`, {
       method: "POST",
-      credentials: 'include', // Include cookies
+      credentials: 'include',
     });
 
     if (!res.ok) {
       const errorData = await res.json();
       throw new Error(errorData.message || "Logout failed");
     }
+    await signOut(auth);
 
     return res.json();
   } catch (error) {

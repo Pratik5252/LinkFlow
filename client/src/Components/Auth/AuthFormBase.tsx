@@ -57,7 +57,7 @@ export function AuthFormBase({
     mutationFn: signInWithGoogle,
     onSuccess: ({ result }) => {
       setUser(result.user);
-      navigate("/");
+      navigate("/dashboard");
     },
     onError: (error) => {
       toast.error(error.message);

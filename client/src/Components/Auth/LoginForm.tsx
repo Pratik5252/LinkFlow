@@ -11,7 +11,7 @@ export function LoginForm({ onSwitch }: { onSwitch: () => void }) {
   const { mutateAsync, error } = useMutation({
     mutationFn: login,
     onSuccess: () => {
-      navigate("/");
+      navigate('/dashboard');
     },
     onError: (error) => {
       toast.error(error.message);
