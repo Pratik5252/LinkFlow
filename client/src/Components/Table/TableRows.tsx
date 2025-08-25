@@ -82,13 +82,13 @@ const TableRows = ({
             </div>
 
             <div className="flex items-center justify-center px-4 py-4 gap-4">
-                <button className="cursor-pointer">
+                {/* <button className="cursor-pointer">
                     <Settings
                         size={20}
                         strokeWidth={1}
                         className="hover:rotate-45 transition-transform duration-300"
                     />
-                </button>
+                </button> */}
                 <Delete
                     url={url}
                     deleteDialog={dialog}
