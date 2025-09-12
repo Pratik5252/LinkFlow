@@ -44,6 +44,32 @@
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+
+    /* Landing Page */
+    --color-lp: var(--bg-lp);
+    --color-foreground-primary: var(--foreground-primary);
+    --color-foreground-secondary: var(--foreground-secondary);
+    --color-section-primary: var(--section-primary);
+    --color-section-secondary: var(--section-secondary);
+    --color-section-foreground-primary: var(--section-foreground-primary);
+    --color-section-foreground-secondary: var(--section-foreground-secondary);
+    --color-cta: var(--cta);
+    --color-border-1: var(--border-1);
+    --color-border-2: var(--border-2);
+    --color-border-3: var(--border-3);
+    --color-success: var(--success);
+    --color-error: var(--error);
+    --color-blob: var(--blob);
+
+    --shadow-small: var(--shadow-small);
+    --shadow-input: var(--shadow-input);
+    --blur-radial: var(--blur-radial);
+
+    /* Font Families */
+    --font-cabinet: 'Cabinet Grotesk Variable', 'Cabinet Grotesk', -apple-system,
+        BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-satoshi: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+        Roboto, sans-serif;
 }
 
 :root {
@@ -121,6 +147,71 @@
     --emerald-700: #15803d;
     --emerald-800: #166534;
     --emerald-900: #14532d;
+
+    /* Landing page variables */
+    --bg-lp: oklch(100% 0 none);
+    --foreground-primary: oklch(18.22% 0.00002 271.152);
+    --foreground-secondary: oklch(30.919% 0.00004 271.152);
+    --section-primary: oklch(25.28% 0.0003 19.01deg);
+    --section-secondary: oklch(70.71% 0.1172 48.42deg);
+    --section-foreground-primary: oklab(100% 0 -0.00011);
+    --section-foreground-secondary: oklch(95.97% 0 none);
+    /* --card-foreground: oklch(87.92% 0 none); */
+    --border-1: oklch(42.39% 0 none);
+    --border-2: oklch(94.91% 0 none);
+    --border-3: oklch(72.36% 0 none);
+    --success: oklab(65.169% -0.15235 0.08323);
+    --error: oklch(59.34% 0.2418 29.02deg);
+
+    --cta: oklch(80.036% 0.18204 151.736);
+    --blob: oklch(45.77% 0.1302 146.12deg);
+
+    /* Shadows */
+    --shadow-small: 0 4px 25px 0 oklab(0% 0 0 / 0.25);
+    --shadow-input: 0 0 12px 0 #c6fccb;
+
+    /* Blur */
+    --blur-radial: blur(120px);
+
+    /* Gradient */
+    --gradient-card-linear-gradient: var(
+        --card-linear-gradient,
+        linear-gradient(180deg, #222 76.25%, #424242 107.89%)
+    );
+
+    --gradient-text-linear: var(
+        --text-linear,
+        linear-gradient(0deg, #4e4e4e 0%, rgba(242, 242, 242, 0.38) 100%)
+    );
+
+    --gradient-border-linear: var(
+        --border-linear,
+        linear-gradient(180deg, #4e4e4e 0%, rgba(255, 255, 255, 0) 58.59%)
+    );
+
+    --gradient-border-linear-2: var(
+        --border-linear-2,
+        linear-gradient(180deg, #4e4e4e 0%, rgba(255, 255, 255, 0) 58.59%)
+    );
+
+    --gradient-blob-linear: var(
+        --blob-linear,
+        linear-gradient(180deg, #fff 8.14%, #909090 101.11%)
+    );
+
+    --gradient-modal-linear: var(
+        --modal-linear,
+        linear-gradient(0deg, #fff 3.85%, rgba(0, 0, 0, 0.15) 53.85%)
+    );
+
+    --gradient-radial-gradient: var(
+        --radial-gradient,
+        radial-gradient(
+            102.65% 122.94% at 48.62% -6.11%,
+            rgba(34, 34, 34, 0) 56.25%,
+            #4ade80 95.77%
+        )
+    );
 }
 
 .dark {
@@ -218,6 +309,103 @@
 }
 
 .grid-cols-24 {
-  grid-template-columns: repeat(24, minmax(0, 1fr));
+    grid-template-columns: repeat(24, minmax(0, 1fr));
 }
 
+
+/* Gradients */
+@layer utilities {
+    .bg-card-linear-gradient {
+        background: var(--gradient-card-linear-gradient);
+    }
+    .bg-text-linear {
+        background: var(--gradient-text-linear);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+    }
+
+    .bg-blob-linear {
+        background: var(--gradient-blob-linear);
+    }
+    .bg-modal-linear {
+        background: var(--gradient-modal-linear);
+    }
+    .bg-radial-gradient {
+        background: var(--gradient-radial-gradient);
+    }
+
+    .blur-radial {
+        filter: var(--blur-radial);
+    }
+
+    .border-linear-1 {
+        border: 1px solid transparent;
+        border-image: var(--gradient-border-linear) 1;
+    }
+
+    .border-linear-2 {
+        border: 2px solid transparent;
+        border-image: var(--gradient-border-linear-2) 1;
+    }
+
+    /* Gradient Border Wrapper Utilities */
+    .gradient-border {
+        background: var(--gradient-border-linear);
+        padding: 2px;
+        border-radius: inherit;
+    }
+
+    .gradient-border-thin {
+        background: var(--gradient-border-linear);
+        padding: 1px;
+        border-radius: inherit;
+    }
+
+    .gradient-border-thick {
+        background: var(--gradient-border-linear);
+        padding: 4px;
+        border-radius: inherit;
+    }
+
+    .gradient-border-2 {
+        background: var(--gradient-border-linear-2);
+        padding: 2px;
+        border-radius: inherit;
+    }
+
+    .gradient-border-2-thin {
+        background: var(--gradient-border-linear-2);
+        padding: 1px;
+        border-radius: inherit;
+    }
+
+    .gradient-border-2-thick {
+        background: var(--gradient-border-linear-2);
+        padding: 4px;
+        border-radius: inherit;
+    }
+
+    /* Child elements inside gradient border */
+    .gradient-border > *,
+    .gradient-border-thin > *,
+    .gradient-border-thick > *,
+    .gradient-border-2 > *,
+    .gradient-border-2-thin > *,
+    .gradient-border-2-thick > * {
+        border-radius: inherit;
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Font Family Utilities */
+    /* .font-cabinet {
+        font-family: var(--font-family-cabinet);
+    }
+
+    .font-satoshi {
+        font-family: var(--font-family-satoshi);
+    } */
+}
