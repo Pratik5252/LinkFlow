@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { CartesianGrid, Line, LineChart, XAxis } from 'recharts';
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 
 import {
     Card,
@@ -37,20 +37,42 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function ChartLine({ visits }: { visits: Visit[] }) {
-    const chartData = Object.values(
-        visits.reduce((acc, visit) => {
-            const date = visit.timestamp.split('T')[0];
-            if (!acc[date]) {
-                acc[date] = { date, desktop: 0, mobile: 0 };
-            }
-            if (visit.device === 'Desktop') {
-                acc[date].desktop += 1;
-            } else if (visit.device === 'Mobile') {
-                acc[date].mobile += 1;
-            }
-            return acc;
-        }, {} as Record<string, { date: string; desktop: number; mobile: number }>)
-    ).sort((a, b) => a.date.localeCompare(b.date));
+    const chartData = React.useMemo(() => {
+        // Process visits data and ensure we have consistent data structure
+        const processedData = Object.values(
+            visits.reduce((acc, visit) => {
+                const date = visit.timestamp.split('T')[0];
+                if (!acc[date]) {
+                    acc[date] = { date, desktop: 0, mobile: 0, tablet: 0 };
+                }
+
+                // Handle different device types more comprehensively
+                const device = visit.device.toLowerCase();
+                if (device.includes('desktop') || device.includes('laptop')) {
+                    acc[date].desktop += 1;
+                } else if (
+                    device.includes('mobile') ||
+                    device.includes('phone')
+                ) {
+                    acc[date].mobile += 1;
+                } else if (device.includes('tablet')) {
+                    acc[date].tablet += 1;
+                } else {
+                    // Default unknown devices to mobile
+                    acc[date].mobile += 1;
+                }
+                return acc;
+            }, {} as Record<string, { date: string; desktop: number; mobile: number; tablet: number }>)
+        ).sort((a, b) => a.date.localeCompare(b.date));
+
+        // Ensure we have at least some data points for a better chart
+        if (processedData.length === 0) {
+            const today = new Date().toISOString().split('T')[0];
+            return [{ date: today, desktop: 0, mobile: 0, tablet: 0 }];
+        }
+
+        return processedData;
+    }, [visits]);
 
     const [activeChart, setActiveChart] =
         React.useState<keyof typeof chartConfig>('desktop');
@@ -62,6 +84,9 @@ export function ChartLine({ visits }: { visits: Visit[] }) {
         }),
         [chartData]
     );
+
+    // Check if we have any actual data
+    const hasData = total.desktop > 0 || total.mobile > 0;
 
     return (
         <Card className="py-4 sm:py-0 h-full flex flex-col">
@@ -96,67 +121,104 @@ export function ChartLine({ visits }: { visits: Visit[] }) {
                 </div>
             </CardHeader>
             <CardContent className="px-2 sm:p-4 flex-1 flex flex-col">
-                <ChartContainer
-                    config={chartConfig}
-                    className="flex-1 flex justify-center items-center min-h-[200px] w-full aspect-video"
-                >
-                    <LineChart
-                        accessibilityLayer
-                        data={chartData}
-                        margin={{
-                            left: 12,
-                            right: 12,
-                        }}
+                {!hasData ? (
+                    <div className="flex-1 flex items-center justify-center min-h-[300px]">
+                        <div className="text-center text-muted-foreground">
+                            <div className="text-2xl mb-2">📊</div>
+                            <p className="text-sm">
+                                No visitor data available yet
+                            </p>
+                            <p className="text-xs mt-1">
+                                Data will appear once you start receiving visits
+                            </p>
+                        </div>
+                    </div>
+                ) : (
+                    <ChartContainer
+                        config={chartConfig}
+                        className="flex-1 w-full min-h-[300px] max-h-[400px]"
                     >
-                        <CartesianGrid vertical={false} />
-                        {/* <YAxis domain={["dataMin - 1", "dataMax + 1"]} /> */}
-                        <XAxis
-                            dataKey="date"
-                            tickLine={false}
-                            axisLine={false}
-                            tickMargin={8}
-                            minTickGap={32}
-                            tickFormatter={(value) => {
-                                const date = new Date(value);
-                                return date.toLocaleDateString('en-US', {
-                                    month: 'short',
-                                    day: 'numeric',
-                                });
+                        <LineChart
+                            accessibilityLayer
+                            data={chartData}
+                            margin={{
+                                left: 20,
+                                right: 20,
+                                top: 20,
+                                bottom: 20,
                             }}
-                        />
-                        <ChartTooltip
-                            content={
-                                <ChartTooltipContent
-                                    className="w-[150px]"
-                                    labelFormatter={(value) => {
-                                        return new Date(
-                                            value
-                                        ).toLocaleDateString('en-US', {
-                                            month: 'short',
-                                            day: 'numeric',
-                                            year: 'numeric',
-                                        });
-                                    }}
-                                />
-                            }
-                        />
-                        <Line
-                            dataKey="desktop"
-                            type="natural"
-                            stroke={`var(--color-desktop)`}
-                            strokeWidth={2}
-                            dot={false}
-                        />
-                        <Line
-                            dataKey="mobile"
-                            type="natural"
-                            stroke={`var(--color-mobile)`}
-                            strokeWidth={2}
-                            dot={false}
-                        />
-                        <ChartLegend content={<ChartLegendContent />} />
-                    </LineChart>
-                </ChartContainer>
+                        >
+                            <CartesianGrid
+                                vertical={false}
+                                strokeDasharray="3 3"
+                                stroke="var(--color-border)"
+                                opacity={0.3}
+                            />
+                            <YAxis
+                                type="number"
+                                domain={[0, 'dataMax']}
+                                hide
+                                allowDataOverflow={false}
+                            />
+                            <XAxis
+                                dataKey="date"
+                                tickLine={false}
+                                axisLine={false}
+                                tickMargin={10}
+                                minTickGap={20}
+                                stroke="var(--color-border)"
+                                tick={{
+                                    fill: 'var(--color-muted-foreground)',
+                                    fontSize: 12,
+                                }}
+                                tickFormatter={(value) => {
+                                    const date = new Date(value);
+                                    return date.toLocaleDateString('en-US', {
+                                        month: 'short',
+                                        day: 'numeric',
+                                    });
+                                }}
+                            />
+                            <ChartTooltip
+                                content={
+                                    <ChartTooltipContent
+                                        className="w-[150px]"
+                                        labelFormatter={(value) => {
+                                            return new Date(
+                                                value
+                                            ).toLocaleDateString('en-US', {
+                                                month: 'short',
+                                                day: 'numeric',
+                                                year: 'numeric',
+                                            });
+                                        }}
+                                    />
+                                }
+                            />
+                            <Line
+                                dataKey="desktop"
+                                type="monotone"
+                                stroke={`var(--color-desktop)`}
+                                strokeWidth={3}
+                                dot={false}
+                            />
+                            <Line
+                                dataKey="mobile"
+                                type="monotone"
+                                stroke={`var(--color-mobile)`}
+                                strokeWidth={3}
+                                connectNulls={false}
+                                dot={false}
+                            />
+                            <ChartLegend
+                                content={<ChartLegendContent />}
+                                wrapperStyle={{
+                                    paddingTop: '20px',
+                                }}
+                            />
+                        </LineChart>
+                    </ChartContainer>
+                )}
             </CardContent>
         </Card>
     );
