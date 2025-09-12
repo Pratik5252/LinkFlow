@@ -3,6 +3,129 @@ import crypto from 'crypto';
 
 const prisma = new PrismaClient();
 
+// Sample data for realistic visits
+const browsers = [
+    'Chrome',
+    'Safari',
+    'Firefox',
+    'Edge',
+    'Opera',
+    'Samsung Internet',
+    'UC Browser',
+];
+
+const operatingSystems = [
+    'Windows',
+    'macOS',
+    'Linux',
+    'iOS',
+    'Android',
+    'Ubuntu',
+    'Chrome OS',
+];
+
+const devices = ['Desktop', 'Mobile', 'Tablet', 'Laptop'];
+
+const locations = [
+    {
+        country: 'United States',
+        countryCode: 'US',
+        city: 'New York',
+        region: 'NY',
+        latitude: 40.7128,
+        longitude: -74.006,
+        timezone: 'America/New_York',
+    },
+    {
+        country: 'United Kingdom',
+        countryCode: 'GB',
+        city: 'London',
+        region: 'England',
+        latitude: 51.5074,
+        longitude: -0.1278,
+        timezone: 'Europe/London',
+    },
+    {
+        country: 'Germany',
+        countryCode: 'DE',
+        city: 'Berlin',
+        region: 'Berlin',
+        latitude: 52.52,
+        longitude: 13.405,
+        timezone: 'Europe/Berlin',
+    },
+    {
+        country: 'France',
+        countryCode: 'FR',
+        city: 'Paris',
+        region: 'Île-de-France',
+        latitude: 48.8566,
+        longitude: 2.3522,
+        timezone: 'Europe/Paris',
+    },
+    {
+        country: 'Japan',
+        countryCode: 'JP',
+        city: 'Tokyo',
+        region: 'Tokyo',
+        latitude: 35.6762,
+        longitude: 139.6503,
+        timezone: 'Asia/Tokyo',
+    },
+    {
+        country: 'Canada',
+        countryCode: 'CA',
+        city: 'Toronto',
+        region: 'ON',
+        latitude: 43.651,
+        longitude: -79.347,
+        timezone: 'America/Toronto',
+    },
+    {
+        country: 'Australia',
+        countryCode: 'AU',
+        city: 'Sydney',
+        region: 'NSW',
+        latitude: -33.8688,
+        longitude: 151.2093,
+        timezone: 'Australia/Sydney',
+    },
+    {
+        country: 'India',
+        countryCode: 'IN',
+        city: 'Mumbai',
+        region: 'MH',
+        latitude: 19.076,
+        longitude: 72.8777,
+        timezone: 'Asia/Kolkata',
+    },
+    {
+        country: 'Brazil',
+        countryCode: 'BR',
+        city: 'São Paulo',
+        region: 'SP',
+        latitude: -23.5558,
+        longitude: -46.6396,
+        timezone: 'America/Sao_Paulo',
+    },
+    {
+        country: 'Singapore',
+        countryCode: 'SG',
+        city: 'Singapore',
+        region: 'Singapore',
+        latitude: 1.3521,
+        longitude: 103.8198,
+        timezone: 'Asia/Singapore',
+    },
+];
+
+// Generate random IP addresses
+const generateRandomIP = () => {
+    return `${Math.floor(Math.random() * 255)}.${Math.floor(
+        Math.random() * 255
+    )}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
+};
+
 // Sample URLs for different categories
 const sampleUrls = [
     // Social Media
@@ -64,6 +187,47 @@ const getRandomDate = () => {
     );
 };
 
+// Get random visit date (can be after URL creation)
+const getRandomVisitDate = (urlCreatedAt: Date) => {
+    const start = new Date(urlCreatedAt);
+    const end = new Date();
+    return new Date(
+        start.getTime() + Math.random() * (end.getTime() - start.getTime())
+    );
+};
+
+// Generate random visits for a URL
+const generateVisitsForUrl = (
+    urlId: string,
+    urlCreatedAt: Date,
+    count: number
+) => {
+    const visits = [];
+
+    for (let i = 0; i < count; i++) {
+        const location =
+            locations[Math.floor(Math.random() * locations.length)];
+        const browser = browsers[Math.floor(Math.random() * browsers.length)];
+        const os =
+            operatingSystems[
+                Math.floor(Math.random() * operatingSystems.length)
+            ];
+        const device = devices[Math.floor(Math.random() * devices.length)];
+
+        visits.push({
+            urlId,
+            ip: generateRandomIP(),
+            location,
+            browser,
+            os,
+            device,
+            timestamp: getRandomVisitDate(urlCreatedAt),
+        });
+    }
+
+    return visits.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
+};
+
 // Get random title for URL
 const getTitleForUrl = (url: string) => {
     if (url.includes('twitter.com')) return 'Twitter Post - Latest Update';
@@ -109,7 +273,7 @@ async function main() {
 
     console.log(`📝 Seeding URLs for user: ${user.email}`);
 
-    // Delete existing URLs for this user (optional - remove if you want to keep existing data)
+    // Delete existing URLs and visits for this user (optional - remove if you want to keep existing data)
     await prisma.url.deleteMany({
         where: { userId: user.id },
     });
@@ -124,19 +288,59 @@ async function main() {
         analyticsEnabled: Math.random() > 0.2, // 80% chance of analytics enabled
     }));
 
-    // Insert URLs in batches
-    console.log(`📊 Creating ${urlsToCreate.length} URLs...`);
+    // Insert URLs and visits
+    console.log(`📊 Creating ${urlsToCreate.length} URLs with visit data...`);
+
+    const createdUrls = [];
 
     for (const urlData of urlsToCreate) {
         try {
-            await prisma.url.create({
+            const createdUrl = await prisma.url.create({
                 data: urlData,
             });
+
+            createdUrls.push(createdUrl);
+
             console.log(
-                `✅ Created: ${
+                `✅ Created URL: ${
                     urlData.shortUrl
                 } -> ${urlData.originalUrl.substring(0, 50)}...`
             );
+
+            // Generate random number of visits for this URL (0-50 visits)
+            const visitCount = Math.floor(Math.random() * 51);
+
+            if (visitCount > 0) {
+                const visits = generateVisitsForUrl(
+                    createdUrl.id,
+                    createdUrl.createdAt,
+                    visitCount
+                );
+
+                // Create visits in batches to avoid overwhelming the database
+                for (const visit of visits) {
+                    try {
+                        await prisma.visit.create({
+                            data: visit,
+                        });
+                    } catch (error) {
+                        console.log(
+                            `❌ Failed to create visit for URL: ${createdUrl.shortUrl}`
+                        );
+                    }
+                }
+
+                // Update lastAccessedAt to the most recent visit
+                const lastVisit = visits[visits.length - 1];
+                await prisma.url.update({
+                    where: { id: createdUrl.id },
+                    data: { lastAccessedAt: lastVisit.timestamp },
+                });
+
+                console.log(`   📈 Added ${visitCount} visits`);
+            } else {
+                console.log(`   📊 No visits generated`);
+            }
         } catch (error) {
             console.log(`❌ Failed to create URL: ${urlData.originalUrl}`);
             console.log(`   Error: ${error}`);
@@ -147,7 +351,45 @@ async function main() {
 
     // Display summary
     const totalUrls = await prisma.url.count({ where: { userId: user.id } });
-    console.log(`📈 Total URLs for user: ${totalUrls}`);
+    const totalVisits = await prisma.visit.count({
+        where: {
+            url: { userId: user.id },
+        },
+    });
+
+    console.log(`📈 Summary:`);
+    console.log(`   • Total URLs: ${totalUrls}`);
+    console.log(`   • Total Visits: ${totalVisits}`);
+    console.log(
+        `   • Average Visits per URL: ${
+            totalUrls > 0 ? (totalVisits / totalUrls).toFixed(2) : 0
+        }`
+    );
+
+    // Show some analytics
+    const popularUrls = await prisma.url.findMany({
+        where: { userId: user.id },
+        include: {
+            _count: {
+                select: { visits: true },
+            },
+        },
+        orderBy: {
+            visits: {
+                _count: 'desc',
+            },
+        },
+        take: 5,
+    });
+
+    console.log(`🏆 Top 5 Most Visited URLs:`);
+    popularUrls.forEach((url, index) => {
+        console.log(
+            `   ${index + 1}. ${url.shortUrl} (${url._count.visits} visits) - ${
+                url.title
+            }`
+        );
+    });
 }
 
 main()
