@@ -63,7 +63,7 @@ const TableRows = ({
 
             <div className=" px-4 py-4 flex items-center justify-center">
                 <Link
-                    to={`/visit/${url.id}`}
+                    to={`visit/${url.id}`}
                     key={url.shortLink}
                     onMouseEnter={() => handleMouseEnter(url.id)}
                     className="hover:text-secondary-foreground transition-all duration-200"
