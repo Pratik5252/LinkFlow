@@ -119,7 +119,7 @@ const GetUrls = () => {
                 />
 
                 {isLoading && <TableSkeleton />}
-                {error && <div>Error</div>}
+                {/* {error && <div>Error</div>} */}
 
                 {/* Table Rows */}
                 {urls && (
