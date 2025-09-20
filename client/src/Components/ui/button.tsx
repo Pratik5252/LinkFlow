@@ -19,7 +19,7 @@ const buttonVariants = cva(
                     'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
                 ghost: 'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
                 link: 'text-primary underline-offset-4 hover:underline',
-                cta: '!w-fit !h-fit bg-lp text-[10px] !px-2 !py-1 md:!px-3 md:!py-2 lg:!px-5 lg:!py-2 md:text-sm lg:text-sm font-satoshi font-normal rounded-sm hover:bg-section-foreground-primary hover:text-section-background',
+                cta: '!w-fit !h-fit bg-lp text-[10px] !px-2 !py-1 md:!px-3 md:!py-2 lg:!px-5 lg:!py-2 md:text-sm lg:text-sm font-satoshi font-normal rounded-sm hover:bg-section-foreground-secondary hover:text-section-background',
                 pill: 'bg-none text-foreground-secondary border border-border-1 !px-2 !py-0.5 md:!px-3 md:!py-1 lg:!px-5 lg:!py-1 sm:text-xs md:text-sm lg:text-base rounded-3xl',
                 link2: '!w-fit !h-fit text-section-foreground-primary text-[10px] sm:text-xs md:text-sm lg:text-base font-satoshi rounded-xs hover:underline !p-0',
             },
