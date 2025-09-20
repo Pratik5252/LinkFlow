@@ -1,8 +1,7 @@
-import subtract from '../../assets/Subtract1.svg';
-import LeftArrow from '../../assets/left-arrow.svg';
+// import subtract from '../../assets/Subtract1.svg';
 import ellipse1 from '../../assets/Ellipse1.svg';
-import blob1 from '../../assets/BlobColor.svg';
-import blob2 from '../../assets/BlobNeutral.png';
+// import blob1 from '../../assets/BlobColor.svg';
+// import blob2 from '../../assets/BlobNeutral.png';
 import dashboard from '../../assets/dashboardss.png';
 import { Button } from '../ui/button';
 import { Link } from 'lucide-react';
@@ -11,46 +10,93 @@ import ContentImages1 from '../../assets/IconContainer1.png';
 import ContentImages2 from '../../assets/IconContainer2.png';
 import ContentImages3 from '../../assets/IconContainer3.png';
 
+import { Container, Content, ContentImage } from './Container';
+import { Card1, Card2, Card3, Card4 } from './Card';
+import { BorderBeam } from '../ui/border-beam';
+import FooterText from '../../assets/FooterText.svg';
+import { TextAnimate } from '../ui/text-animate';
+import { motion } from 'motion/react';
+
 export default function LandingPage() {
+    const WIDTH = window.innerWidth;
     return (
         <div className="flex flex-col justify-center items-center gap-4 w-full h-fit px-4 py-4 bg-lp overflow-x-hidden">
             {/* Hero Section */}
-            <div className="w-full h-full flex flex-col relative justify-between items-center gap-8 md:gap-12 lg:gap-16">
-                <img
-                    className="absolute top-10 blur-[140px] z-0"
-                    alt="Ellipse"
-                    src={ellipse1}
-                />
-                <img
+            <img
+                className="absolute top-10 blur-[140px] z-0"
+                alt="Ellipse"
+                src={ellipse1}
+            />
+            <div className="relative bg-[#121212] w-full h-full flex flex-col justify-between items-center gap-8 md:gap-12 lg:gap-16 z-10 rounded-md lg:rounded-lg overflow-hidden">
+                {/* Generate 20 vertical borders */}
+                {Array.from({ length: 50 }, (_, i) => (
+                    <div
+                        key={i}
+                        className="absolute w-0 h-full border-l-[0.5px] border-[#1b1b1b] z-0"
+                        style={{ left: `${(i + 1) * 2}%` }}
+                    >
+                        <BorderBeam
+                            size={90}
+                            borderWidth={0.1}
+                            colorFrom="#1b1b1b"
+                            colorTo="#121212"
+                            duration={Math.random() * 10 + 5}
+                            delay={Math.random() * 5}
+                        />
+                    </div>
+                ))}
+                {Array.from({ length: 50 }, (_, i) => (
+                    <div
+                        key={i}
+                        className="absolute w-full h-0 border-t-[0.5px] border-[#1b1b1b] z-0"
+                        style={{ top: `${(i + 1) * 4}%` }}
+                    >
+                        <BorderBeam
+                            size={90}
+                            borderWidth={0.1}
+                            colorFrom="#1b1b1b"
+                            colorTo="#121212"
+                            duration={Math.random() * 10 + 5}
+                            delay={Math.random() * 5}
+                        />
+                    </div>
+                ))}
+                {/* <img
                     className="absolute w-max h-[100] rounded sm:rounded-md md:rounded-lg lg:rounded-2xl"
                     alt="Subtract"
                     src={subtract}
-                />
-                <img
+                /> */}
+                {/* <img
                     className="absolute w-[25rem] md:w-[45rem] lg:w-[55rem] h-fit z-30 top-[6%]"
                     alt="Bolb1"
                     src={blob1}
-                />
-                <img
+                /> */}
+                {/* <img
                     className="absolute w-[25rem] md:w-[45rem] lg:w-[55rem] h-fit z-30 top-[6%]"
                     alt="Bolb2"
                     src={blob2}
-                />
+                /> */}
                 <h1 className="absolute text-section-foreground-primary font-cabinet font-medium lg:text-xl md:text-lg sm:text-sm text-xs left-3 top-3 md:left-4 md:top-4 lg:left-6 lg:top-6 z-40">
                     LinkFlow
                 </h1>
                 <Button
                     variant="cta"
-                    className="absolute right-3 top-3 sm:right-4 sm:top-4 md:right-4 md:top-4 lg:right-6 lg:top-6 font-light"
+                    className="absolute right-3 top-3 sm:right-4 sm:top-4 md:right-4 md:top-4 lg:right-6 lg:top-6 font-light text-foreground-primary"
                 >
                     SignIn/SignUp
                 </Button>
 
-                <div className="w-fit h-full lg:w-3xl z-40 flex flex-col justify-center items-center gap-4 md:gap-6 lg:gap-8 mt-[16%]">
+                <div className="w-fit h-full lg:w-3xl z-40 flex flex-col justify-center items-center gap-4 md:gap-6 lg:gap-8 my-[16%]">
                     <div className="w-full flex flex-col justify-center items-center gap-2 text-center">
-                        <h1 className="w-[60%] lg:w-[80%] font-cabinet font-medium text-section-foreground-primary text-center text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-wrap">
+                        <TextAnimate
+                            animation="blurIn"
+                            as={'h1'}
+                            duration={1}
+                            once={true}
+                            className="w-[60%] lg:w-[80%] font-cabinet font-medium text-section-foreground-primary text-center text-2xl sm:text-3xl md:text-5xl lg:text-7xl text-wrap"
+                        >
                             Shorten links using your own domain
-                        </h1>
+                        </TextAnimate>
                         <p className="w-[80%] lg:w-[70%] font-satoshi font-light text-section-foreground-secondary text-wrap text-center text-[8px] sm:text-xs md:text-sm lg:text-lg">
                             Create branded links that boost engagement and
                             provide analytics.
@@ -64,34 +110,51 @@ export default function LandingPage() {
                     <div className="bg-[#121212] w-fit border border-border-1 flex justify-between items-center px-3 py-1 md:px-5 md:py-2 lg:px-6 lg:py-2 gap-2 rounded lg:rounded-md shadow-input">
                         <input
                             id="url-input"
-                            className="w-[30vw] h-fit text-section-foreground-secondary placeholder:text-section-foreground-primary px-2 py-1 lg:px-5 lg:py-2 border-none text-xs md:text-sm lg:text-base !focus:ring-0 !focus:ring-offset-0 !focus:outline-none !bg-transparent !outline-none"
-                            placeholder="Paste Url ..."
+                            className="w-[30vw] h-fit text-section-foreground-secondary placeholder:text-section-foreground-primary py-1 lg:py-2 border-none text-xs md:text-sm lg:text-base !focus:ring-0 !focus:ring-offset-0 !focus:outline-none !bg-transparent !outline-none"
+                            placeholder="Enter Url ..."
                         />
                         <Button
                             variant="cta"
-                            className="w-fit h-fit bg-lp text-[10px] !px-2 !py-1 md:!px-3 md:!py-2 lg:!px-5 lg:!py-2 md:text-sm lg:text-base font-satoshi rounded-xs hover:bg-section-foreground-primary"
+                            className="w-fit h-fit bg-lp text-[10px] !px-2 !py-1 md:!px-3 md:!py-2 lg:!px-5 lg:!py-2 md:text-sm lg:text-base font-satoshi rounded-xs hover:bg-section-foreground-primary text-foreground-primary"
                         >
                             Short Url <Link className="size-3 " />
                         </Button>
                     </div>
                 </div>
-
-                <div className="z-40 relative h-full">
-                    <img
-                        className="w-[70vw] h-[100] border-2 border-border-1 rounded-lg"
-                        src={dashboard}
-                        alt="Dashboard"
-                    />
-
-                    <div className="absolute z-50 w-[70vw] h-full bg-modal-linear top-0 rounded"></div>
-                </div>
             </div>
+            <motion.div
+                className="z-40 relative h-full -top-16 md:-top-20 lg:-top-28"
+                initial={{
+                    scale: WIDTH < 640 ? 1 : WIDTH < 1024 ? 1 : 0.9,
+                    y: 0,
+                    opacity: 1,
+                }}
+                whileInView={{
+                    scale: WIDTH < 640 ? 1.05 : WIDTH < 1024 ? 1 : 1.2,
+                    y: 0,
+                    opacity: 1,
+                }}
+                transition={{
+                    type: 'spring',
+                    stiffness: WIDTH < 640 ? 80 : WIDTH < 1024 ? 100 : 120,
+                    damping: 20,
+                    duration: 0.8,
+                }}
+                viewport={{ amount: WIDTH < 1024 ? 0.8 : 0.6 }}
+            >
+                <img
+                    className="w-[70vw] h-[100] border-2 border-border-1 rounded-lg"
+                    src={dashboard}
+                    alt="Dashboard"
+                />
+                <div className="absolute z-50 w-[70vw] h-full bg-modal-linear top-0 rounded"></div>
+            </motion.div>
 
             {/* Content Section */}
-            <div className="flex flex-col justify-center items-center py-6 sm:py-10 md:py-13 lg:py-16 gap-6 sm:gap-10 md:gap-13 lg:gap-16">
-                <h1 className="w-[50%] sm:w-[50%] lg:w-[45%] font-cabinet font-medium text-foreground-primary text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-wrap">
+            <div className="flex flex-col justify-center items-center gap-6 sm:gap-10 md:gap-13 lg:gap-16 mb-10 md:mb-12 lg:mb-16">
+                <h2 className="w-[50%] sm:w-[50%] lg:w-[40%] font-cabinet font-medium text-foreground-primary text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-wrap tracking-tight">
                     Turn every click into actionable intelligence
-                </h1>
+                </h2>
 
                 {/* Content Cards */}
                 <Container>
@@ -137,51 +200,97 @@ export default function LandingPage() {
                     />
                 </Container>
             </div>
-        </div>
-    );
-}
 
-function Container({ children }: { children: React.ReactNode }) {
-    return (
-        <div className="w-screen flex justify-center border-t border-b border-border-3 gap-2 sm:gap-4 md:gap-8 lg:gap-16 px-4">
-            {children}
-        </div>
-    );
-}
+            <div className="w-full flex flex-col justify-center items-center gap-6">
+                <div className="w-full flex flex-col justify-center items-center">
+                    <h2 className="w-[50%] sm:w-[50%] lg:w-[45%] font-cabinet font-medium text-foreground-primary text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-wrap tracking-tight">
+                        See it in action
+                    </h2>
+                    <p className="w-[80%] lg:w-[70%] font-satoshi font-normal text-foreground-secondary text-wrap text-center text-[8px] sm:text-xs md:text-sm lg:text-lg">
+                        From QR codes to analytics, explore the features that
+                        make link tracking effortless
+                    </p>
+                </div>
+                <div className="w-full h-fit flex flex-col md:flex-row justify-center items-center md:hidden gap-4 py-16 px-0 bg-section-secondary rounded-md">
+                    <Card1 />
+                    <Card2 />
 
-function ContentImage({ children }: { children?: React.ReactNode }) {
-    return (
-        <div className="relative w-[296px] sm:w-[320px] md:w-[400px] lg:w-[480px] flex justify-center items-center border-x border-border-3">
-            <div className="absolute bg-cta w-[55%] h-[55%]  rounded-full blur-radial z-0"></div>
-            {children}
-        </div>
-    );
-}
+                    <Card3 />
+                    <Card4 />
+                    <div className="absolute w-1 h-full rounded-md z-0 overflow-hidden">
+                        <BorderBeam
+                            size={1200}
+                            borderWidth={2}
+                            colorFrom="#db895d"
+                            colorTo="#FFFFFF"
+                        />
+                    </div>
+                </div>
+                <div className="w-full h-fit hidden md:flex flex-col md:flex-row justify-center items-start md:items-start gap-4 py-10 px-4 bg-section-secondary rounded-md">
+                    <div className="relative w-fit h-full flex justify-center items-center gap-4">
+                        <div className="w-fit h-full flex flex-col justify-between items-center gap-9 z-10">
+                            <Card1 />
+                            <Card3 />
+                        </div>
+                        <div className="w-fit h-full flex flex-col justify-between items-center gap-4 z-10">
+                            <Card2 />
+                            <Card4 />
+                        </div>
+                        <div className="absolute w-[50%] h-[50%] rounded-md z-0 overflow-hidden">
+                            <BorderBeam
+                                size={800}
+                                borderWidth={3}
+                                colorFrom="#db895d"
+                                colorTo="#FFFFFF"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-function Content({
-    title,
-    content,
-    btnText,
-}: {
-    title: string;
-    content: string;
-    btnText: string;
-}) {
-    return (
-        <div className="w-[100%] sm:w-[60%] md:w-[60%] lg:w-[40%] flex flex-col justify-start items-start gap-3 sm:gap-2 md:gap-4 lg:gap-6 py-4 sm:py-6 md:py-8 lg:py-10 px-2 sm:px-2 ">
-            <h1 className="w-fit font-cabinet text-foreground-primary font-medium text-base sm:text-lg md:text-2xl lg:text-4xl">
-                {title}
-            </h1>
-            <p className="w-[90%] text-wrap font-satoshi font-light text-foreground-secondary tracking-tight text-xs sm:text-sm md:text-lg lg:text-2xl">
-                {content}
-            </p>
-            <Button
-                variant="pill"
-                className="w-fit h-fit font-satoshi font-medium text-foreground-secondary text-[8px]"
-            >
-                {btnText}{' '}
-                <img src={LeftArrow} alt="Left Arrow" className="w-4 h-4" />
-            </Button>
+            <div className="relative w-full h-full bg-section-primary flex flex-col justify-center items-center rounded-md py-18 md:py-24 lg:py-32">
+                <div className="justify-center items-center flex flex-col gap-2 z-30">
+                    <div className="text-section-foreground-secondary text-[8px] sm:text-xs md:text-sm lg:text-base border border-border-1 rounded-full px-2 hover:text-section-foreground-primary transition-all duration-300 ease-in-out">
+                        Get Started
+                    </div>
+                    <div className="w-full h-fit flex flex-col justify-center items-center">
+                        <p className="font-cabinet font-medium text-section-foreground-primary text-center text-2xl sm:text-3xl md:text-4xl lg:text-6xl text-wrap tracking-tight">
+                            Start creating links with LinkFlow
+                        </p>
+                        <p className="w-[100%] mx-auto font-satoshi font-light text-section-foreground-secondary text-wrap text-center text-[8px] sm:text-xs md:text-sm lg:text-lg">
+                            Begin your journey with LinkFlow and transform your
+                            URLs into powerful tools.
+                        </p>
+                    </div>
+                    <Button
+                        variant="cta"
+                        className="w-fit h-fit bg-lp text-[8px] !px-2 !py-1 md:!px-3 md:!py-2 lg:!px-5 lg:!py-2 md:text-sm lg:text-base font-satoshi rounded hover:bg-section-foreground-primary text-foreground-primary mt-2 md:mt-4 lg:mt-6 z-30"
+                    >
+                        Get Started
+                    </Button>
+                </div>
+                <div className="absolute w-full h-full rounded-md z-20 overflow-hidden bg-radial-gradient top-0"></div>
+            </div>
+
+            <div className="w-full bg-section-primary flex flex-col justify-center items-center py-1 md:py-2 rounded-md">
+                <div className="w-full flex justify-between items-center px-3">
+                    <div className="flex justify-center items-center gap-1 text-[8px] sm:text-[10px] md:text-sm lg:text-base text-section-foreground-secondary font-satoshi font-normal">
+                        <Link className="w-2 " /> LinkFlow
+                    </div>
+                    <p className="text-[6px] sm:text-[8px] md:text-[10px] font-extralight text-section-foreground-secondary font-satoshi">
+                        © {new Date().getFullYear()} Company Name. All rights
+                        reserved
+                    </p>
+                </div>
+                {/* <p className=" text-section-primary text-8xl font-bold bordered-text ">
+                    LinkFlow
+                </p> */}
+                <img
+                    src={FooterText}
+                    alt="FooterText"
+                    className="w-auto py-2 md:py-4 lg:py-6 px-4 md:px-6 lg:px-8"
+                />
+            </div>
         </div>
     );
 }
