@@ -69,10 +69,8 @@
     --color-card-linear-gradient: var(--gradient-card-linear-gradient);
 
     /* Font Families */
-    --font-cabinet: 'Cabinet Grotesk Variable', 'Cabinet Grotesk', -apple-system,
-        BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-satoshi: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-        Roboto, sans-serif;
+    --font-cabinet: 'Cabinet Grotesk Variable', 'Cabinet Grotesk';
+    --font-satoshi: 'Satoshi';
 
     --animate-shine: shine var(--duration) infinite linear;
     @keyframes shine {
