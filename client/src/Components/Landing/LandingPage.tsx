@@ -124,7 +124,7 @@ export default function LandingPage() {
                 viewport={{ amount: WIDTH < 1024 ? 0.8 : 0.6 }}
             >
                 <img
-                    className="w-[70vw] h-[100] border-2 border-border-1 rounded-lg"
+                    className="w-[70vw] h-full border-2 border-border-1 rounded-lg"
                     src={dashboard}
                     alt="Dashboard"
                 />
