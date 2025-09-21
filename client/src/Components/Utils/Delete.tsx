@@ -3,7 +3,18 @@ import { Trash } from "lucide-react";
 import type { Url } from "@/types/url";
 import DeleteUrl from "../Urls/DeleteUrl";
 
-const Delete = ({ url, deleteDialog, setDeleteDialog }) => {
+interface DeleteDialogProps {
+  isOpen: boolean;
+  url: Url | null;
+}
+
+interface DeleteProps {
+  url: Url;
+  deleteDialog: DeleteDialogProps;
+  setDeleteDialog: React.Dispatch<React.SetStateAction<DeleteDialogProps>>;
+}
+
+const Delete: React.FC<DeleteProps> = ({ url, deleteDialog, setDeleteDialog }) => {
   const queryClient = useQueryClient();
 
   const handleDeleteClick = (url: Url) => {

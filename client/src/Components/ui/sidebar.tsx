@@ -202,6 +202,7 @@ function Sidebar({
                         } as React.CSSProperties
                     }
                     side={side}
+                    iconname="menu"
                 >
                     <SheetHeader className="sr-only">
                         <SheetTitle>Sidebar</SheetTitle>

@@ -1,7 +1,4 @@
-// import subtract from '../../assets/Subtract1.svg';
 import ellipse1 from '../../assets/Ellipse1.svg';
-// import blob1 from '../../assets/BlobColor.svg';
-// import blob2 from '../../assets/BlobNeutral.png';
 import dashboard from '../../assets/dashboardss.png';
 import { Button } from '../ui/button';
 import { Link } from 'lucide-react';
@@ -28,11 +25,10 @@ export default function LandingPage() {
                 src={ellipse1}
             />
             <div className="relative bg-[#121212] w-full h-full flex flex-col justify-between items-center gap-8 md:gap-12 lg:gap-16 z-10 rounded-md lg:rounded-lg overflow-hidden">
-                {/* Generate 20 vertical borders */}
                 {Array.from({ length: 50 }, (_, i) => (
                     <div
                         key={i}
-                        className="absolute w-0 h-full border-l-[0.5px] border-[#1b1b1b] z-0"
+                        className="absolute w-0 h-full border-l-[0.5px] border-[#1b1b1b] z-0 "
                         style={{ left: `${(i + 1) * 2}%` }}
                     >
                         <BorderBeam
@@ -48,7 +44,7 @@ export default function LandingPage() {
                 {Array.from({ length: 50 }, (_, i) => (
                     <div
                         key={i}
-                        className="absolute w-full h-0 border-t-[0.5px] border-[#1b1b1b] z-0"
+                        className="absolute w-full h-0 border-t-[0.5px] border-[#1b1b1b] z-0 "
                         style={{ top: `${(i + 1) * 4}%` }}
                     >
                         <BorderBeam
@@ -61,21 +57,6 @@ export default function LandingPage() {
                         />
                     </div>
                 ))}
-                {/* <img
-                    className="absolute w-max h-[100] rounded sm:rounded-md md:rounded-lg lg:rounded-2xl"
-                    alt="Subtract"
-                    src={subtract}
-                /> */}
-                {/* <img
-                    className="absolute w-[25rem] md:w-[45rem] lg:w-[55rem] h-fit z-30 top-[6%]"
-                    alt="Bolb1"
-                    src={blob1}
-                /> */}
-                {/* <img
-                    className="absolute w-[25rem] md:w-[45rem] lg:w-[55rem] h-fit z-30 top-[6%]"
-                    alt="Bolb2"
-                    src={blob2}
-                /> */}
                 <h1 className="absolute text-section-foreground-primary font-cabinet font-medium lg:text-xl md:text-lg sm:text-sm text-xs left-3 top-3 md:left-4 md:top-4 lg:left-6 lg:top-6 z-40">
                     LinkFlow
                 </h1>
@@ -282,9 +263,6 @@ export default function LandingPage() {
                         reserved
                     </p>
                 </div>
-                {/* <p className=" text-section-primary text-8xl font-bold bordered-text ">
-                    LinkFlow
-                </p> */}
                 <img
                     src={FooterText}
                     alt="FooterText"

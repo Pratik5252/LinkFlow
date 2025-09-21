@@ -3,7 +3,11 @@ import ShareDialog from "../ShareDialog";
 import { Button } from "../ui/button";
 import { Share2 } from "lucide-react";
 
-const Share = ({value}) => {
+interface ShareProps {
+  value: string;
+}
+
+const Share = ({ value }: ShareProps) => {
 
   const [open, setOpen] = useState(false);
 

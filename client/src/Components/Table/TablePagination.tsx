@@ -12,7 +12,7 @@ import type { PaginatedUrlsResponse } from '@/types/url';
 interface TablePaginationProps {
     urlsResponse: PaginatedUrlsResponse | undefined;
     limit: number;
-    setPage: (prev: number) => void;
+    setPage: (page: number) => void;
 }
 
 const TablePagination = ({
@@ -23,14 +23,14 @@ const TablePagination = ({
     const pagination = urlsResponse?.pagination;
     // Enhanced pagination handlers with validation
     const handleNext = () => {
-        if (pagination?.hasNext) {
-            setPage((prev) => prev + 1);
+        if (pagination?.hasNext && pagination?.currentPage !== undefined) {
+            setPage(pagination.currentPage + 1);
         }
     };
 
     const handlePrevious = () => {
-        if (pagination?.hasPrev) {
-            setPage((prev) => prev - 1);
+        if (pagination?.hasPrev && pagination?.currentPage !== undefined) {
+            setPage(pagination.currentPage - 1);
         }
     };
 

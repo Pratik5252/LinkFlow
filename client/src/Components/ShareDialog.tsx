@@ -53,7 +53,9 @@ const ShareDialog = ({ open, onOpenChange, value }: shortUrlProps) => {
             canvas.width = img.width;
             canvas.height = img.height;
             const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
+            if (ctx) {
+                ctx.drawImage(img, 0, 0);
+            }
             URL.revokeObjectURL(url);
 
             // Download as PNG
@@ -84,32 +86,33 @@ const ShareDialog = ({ open, onOpenChange, value }: shortUrlProps) => {
             canvas.width = img.width;
             canvas.height = img.height;
             const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
+            if (ctx) {
+                ctx.drawImage(img, 0, 0);
+            }
             URL.revokeObjectURL(url);
 
             canvas.toBlob(async (blob) => {
+                if (!blob) {
+                    alert('Failed to generate QR code image.');
+                    return;
+                }
+                const file = new File([blob], 'qrcode.png', {
+                    type: 'image/png',
+                });
                 if (
                     navigator.canShare &&
                     navigator.canShare({
-                        files: [
-                            new File([blob], 'qrcode.png', {
-                                type: 'image/png',
-                            }),
-                        ],
+                        files: [file],
                     })
                 ) {
                     try {
                         await navigator.share({
-                            files: [
-                                new File([blob], 'qrcode.png', {
-                                    type: 'image/png',
-                                }),
-                            ],
+                            files: [file],
                             title: 'QR Code',
                             text: 'Scan this QR code!',
                         });
                     } catch (err) {
-                        alert('Sharing failed: ' + err.message);
+                        alert('Sharing failed: ' + (err as Error).message);
                     }
                 } else {
                     alert(
@@ -119,7 +122,7 @@ const ShareDialog = ({ open, onOpenChange, value }: shortUrlProps) => {
             }, 'image/png');
         };
         img.src = url;
-    }; 
+    };
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange} modal={true}>

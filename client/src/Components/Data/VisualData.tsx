@@ -8,9 +8,9 @@ import { useQuery } from '@tanstack/react-query';
 
 const VisualData = () => {
     const { urlId } = useParams();
-    const [selectedUrl, setSelectedUrl] = useState<Url | null>(null);
+    const [selectedUrl] = useState<Url | null>(null);
 
-    const { data, isLoading, error, isFetching } = useQuery<VisitResponse>({
+    const { data, isLoading, error } = useQuery<VisitResponse>({
         queryKey: ['visits', urlId],
         queryFn: () => getUrlVisits(urlId!),
         enabled: !!urlId,

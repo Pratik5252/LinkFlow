@@ -2,15 +2,14 @@ import { Link } from 'react-router-dom';
 import Copy from '../Utils/Copy';
 import Delete from '../Utils/Delete';
 import Share from '../Utils/Share';
-import { Settings } from 'lucide-react';
 import type { Url } from '@/types/url';
 
 interface TableRowsProps {
     url: Url;
     handleMouseEnter: (urlId: string) => void;
-    dialog: { isOpen: boolean; url?: Url | null };
+    dialog: { isOpen: boolean; url: Url | null };
     setDialog: React.Dispatch<
-        React.SetStateAction<{ isOpen: boolean; url?: Url | null }>
+        React.SetStateAction<{ isOpen: boolean; url: Url | null }>
     >;
 }
 

@@ -2,7 +2,11 @@ import { DynamicIcon } from "lucide-react/dynamic";
 import { useState } from "react";
 import { Button } from "../ui/button";
 
-const Copy = ({ url }) => {
+interface CopyProps {
+  url: string;
+}
+
+const Copy = ({ url }: CopyProps) => {
   const [copied, setCopied] = useState(true);
 
   const copyText = () => {

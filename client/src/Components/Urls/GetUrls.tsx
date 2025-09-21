@@ -15,7 +15,7 @@ import { renderSortIcon } from '../Table/sortUtils';
 const GetUrls = () => {
     const [dialog, setDialog] = useState<{
         isOpen: boolean;
-        url?: Url | null;
+        url: Url | null;
     }>({
         isOpen: false,
         url: null,
@@ -43,11 +43,7 @@ const GetUrls = () => {
     const queryClient = useQueryClient();
 
     // Fetch paginated URLs for table display
-    const {
-        data: urlsResponse,
-        isLoading,
-        error,
-    } = useQuery({
+    const { data: urlsResponse, isLoading } = useQuery({
         queryKey: ['urls', page, limit, searchQuery],
         queryFn: () => getUrls(page, limit, searchQuery),
         staleTime: 30000,

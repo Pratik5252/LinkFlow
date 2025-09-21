@@ -1,6 +1,5 @@
 import { Button } from '../ui/button';
 import LeftArrow from '../../assets/left-arrow.svg';
-import { motion } from 'motion/react';
 
 export function Container({ children }: { children: React.ReactNode }) {
     return (
@@ -42,13 +41,13 @@ export function Content({
             </p>
             <Button
                 variant="pill"
-                className="w-fit h-fit font-satoshi font-medium text-foreground-secondary text-[8px] overflow-hidden"
+                className="w-fit h-fit font-satoshi font-medium text-foreground-secondary text-[8px] group "
             >
                 {btnText}{' '}
-                <motion.img
+                <img
                     src={LeftArrow}
                     alt="Left Arrow"
-                    className="w-4 h-4"
+                    className="w-4 h-4 -translate-x-0.5 group-hover:translate-x-0.5 transtion-all duration-300 ease-in-out"
                 />
             </Button>
         </div>

@@ -1,5 +1,5 @@
 import { createShortUrl } from '@/services/url';
-import { useState, type FormEvent } from 'react';
+import { useState, type FormEvent, type JSX } from 'react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
@@ -14,7 +14,7 @@ import {
 } from '../ui/dialog';
 import { Link, Hash, Loader2, AlertCircle, Plus } from 'lucide-react';
 import { toast } from 'sonner';
-const CreateShortUrl = ({ text }: { text: string }): string => {
+const CreateShortUrl = ({ text }: { text: string }): JSX.Element => {
     const [originalUrl, setOriginalUrl] = useState('');
     const [customUrl, setCustomUrl] = useState('');
     const [title, setTitle] = useState('');
