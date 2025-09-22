@@ -7,6 +7,7 @@ import urlRoutes from './routes/url.js';
 import { redirectUrl } from './controllers/url/redirectUrl.js';
 
 dotenv.config();
+const PORT = Number(process.env.PORT);
 const app = express();
 
 app.use(
@@ -24,6 +25,6 @@ app.use('/api/url', urlRoutes);
 
 app.get('/:shorturl', redirectUrl);
 
-app.listen(Number(process.env.PORT) || 3000, '0.0.0.0', () => {
+app.listen(PORT || 3000, () => {
     console.log(`Server is running on port ${process.env.PORT || 3000}`);
 });
