@@ -10,7 +10,7 @@
     "scripts": {
         "dev": "tsx watch src/index.ts",
         "build": "tsc && tsc-alias",
-        "heroku-postbuild": "cd src && npx prisma generate --no-engine",
+        "heroku-postbuild": "npm run build && cd src && npx prisma generate --no-engine",
         "start": "node --trace-warnings dist/index.js",
         "prisma:generate": "prisma generate",
         "prisma:migrate": "prisma migrate dev",
