@@ -57,12 +57,16 @@ export default function LandingPage() {
                         />
                     </div>
                 ))}
-                <h1 className="absolute text-section-foreground-primary font-cabinet font-medium lg:text-xl md:text-lg sm:text-sm text-xs left-3 top-3 md:left-4 md:top-4 lg:left-6 lg:top-6 z-40">
+                <h1
+                    className="absolute text-section-foreground-primary font-cabinet font-medium lg:text-xl md:text-lg sm:text-sm text-xs left-3 top-3 md:left-4 md:top-4 lg:left-6 lg:top-6 z-40"
+                    onClick={() => (window.location.href = '/')}
+                >
                     LinkFlow
                 </h1>
                 <Button
                     variant="cta"
                     className="absolute right-3 top-3 sm:right-4 sm:top-4 md:right-4 md:top-4 lg:right-6 lg:top-6 font-light text-foreground-primary"
+                    onClick={() => (window.location.href = '/auth')}
                 >
                     SignIn/SignUp
                 </Button>
@@ -97,6 +101,7 @@ export default function LandingPage() {
                         <Button
                             variant="cta"
                             className="w-fit h-fit bg-lp text-[10px] !px-2 !py-1 md:!px-3 md:!py-2 lg:!px-5 lg:!py-2 md:text-sm lg:text-base font-satoshi rounded-xs hover:bg-section-foreground-primary text-foreground-primary"
+                            onClick={() => (window.location.href = '/auth')}
                         >
                             Short Url <Link className="size-3 " />
                         </Button>
@@ -246,6 +251,7 @@ export default function LandingPage() {
                     <Button
                         variant="cta"
                         className="w-fit h-fit bg-lp text-[8px] !px-2 !py-1 md:!px-3 md:!py-2 lg:!px-5 lg:!py-2 md:text-sm lg:text-base font-satoshi rounded hover:bg-section-foreground-primary text-foreground-primary mt-2 md:mt-4 lg:mt-6 z-30"
+                        onClick={() => (window.location.href = '/auth')}
                     >
                         Get Started
                     </Button>

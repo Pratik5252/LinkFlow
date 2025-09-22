@@ -42,6 +42,7 @@ export function Content({
             <Button
                 variant="pill"
                 className="w-fit h-fit font-satoshi font-medium text-foreground-secondary text-[8px] group "
+                onClick={() => (window.location.href = '/auth')}
             >
                 {btnText}{' '}
                 <img
