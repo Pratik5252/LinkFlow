@@ -5,8 +5,8 @@ export const logout = async (req: Request, res: Response) => {
         // Clear the HttpOnly cookie
         res.clearCookie('authToken', {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            // sameSite: 'strict',
+            secure: true,
+            sameSite: 'none',
             path: '/',
         });
 
