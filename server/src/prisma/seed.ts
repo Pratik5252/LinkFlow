@@ -381,15 +381,6 @@ async function main() {
         },
         take: 5,
     });
-
-    console.log(`🏆 Top 5 Most Visited URLs:`);
-    popularUrls.forEach((url, index) => {
-        console.log(
-            `   ${index + 1}. ${url.shortUrl} (${url._count.visits} visits) - ${
-                url.title
-            }`
-        );
-    });
 }
 
 main()
