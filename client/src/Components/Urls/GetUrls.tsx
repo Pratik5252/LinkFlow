@@ -80,6 +80,7 @@ const GetUrls = () => {
     return (
         <div className="max-w-6xl h-full w-full mx-8 mb-2 p-2">
             {/* Overview Metrics - now handles empty state internally */}
+
             <UrlOverviewMetrics urls={allUrls} />
 
             {/* Table Control */}
@@ -95,11 +96,7 @@ const GetUrls = () => {
             ) : null}
 
             {/* Table Headers */}
-            <div
-                className={`mt-2 rounded-lg overflow-hidden h-[${
-                    3 * limit
-                }vh] mb-2`}
-            >
+            <div className={`mt-2 overflow-hidden h-[${3 * limit}vh] mb-2`}>
                 {urls.length > 0 && (
                     <TableHeader
                         renderSortIcon={renderSortIconForKey}
@@ -119,7 +116,7 @@ const GetUrls = () => {
 
                 {/* Table Rows */}
                 {urls && (
-                    <div className="">
+                    <div className="flex flex-col gap-2 lg:flex lg:gap-0">
                         {items.map((url) => (
                             <TableRows
                                 url={url}
