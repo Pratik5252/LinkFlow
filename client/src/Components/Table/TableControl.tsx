@@ -32,12 +32,6 @@ const TableControl = ({
         <div className="py-1 text-foreground mt-4 flex justify-between items-start">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div>
-                    {/* <div className="flex gap-2 items-center text-lg font-medium">
-                        URLs{' '}
-                        <span>
-                            <URL size={20} />
-                        </span>
-                    </div> */}
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <Search className="h-4 w-4 text-muted-foreground" />
