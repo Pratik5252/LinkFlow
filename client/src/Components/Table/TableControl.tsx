@@ -1,4 +1,4 @@
-import { Link as URL, Search, X } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import { Input } from '../ui/input';
 import Dropdown from '../Dropdown';
 import CreateShortUrl from '../Urls/CreateShortUrl';
@@ -61,7 +61,7 @@ const TableControl = ({
                         )}
                     </div>
                 </div>
-                <div className='flex items-center justify-between w-full'>
+                <div className="flex items-center justify-between w-full">
                     {pagination && (
                         <div className="text-sm text-muted-foreground">
                             Showing {(pagination.currentPage - 1) * limit + 1}{' '}
