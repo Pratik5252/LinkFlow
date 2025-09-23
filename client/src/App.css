@@ -336,12 +336,12 @@
         @apply border-border outline-ring/50;
     }
     body {
-        @apply bg-background text-foreground min-h-screen antialiased;
+        @apply bg-background text-foreground min-h-screen antialiased font-satoshi;
     }
 }
 
 .table-grid {
-    @apply grid grid-cols-[minmax(200px,1fr)_minmax(300px,2fr)_minmax(120px,auto)_minmax(80px,auto)_minmax(100px,auto)_minmax(150px,auto)] gap-0;
+    @apply hidden lg:grid md:grid-cols-[minmax(200px,1fr)_minmax(300px,2fr)_minmax(120px,auto)_minmax(80px,auto)_minmax(100px,auto)_minmax(150px,auto)] gap-0;
 }
 
 .DropdownMenuContent {
