@@ -58,7 +58,7 @@ const CreateShortUrl = ({ text }: { text: string }): JSX.Element => {
                 </Button>
             </DialogTrigger>
             <DialogContent
-                className="flex flex-col max-w-[80vw] max-h-[50vh] sm:max-w-[60vw] sm:max-h-[50vh]"
+                className="flex flex-col w-fit max-w-[80vw] h-fit sm:max-w-[60vw] sm:max-h-[60vh]"
                 showCloseButton={false}
             >
                 <DialogHeader className="text-left">
@@ -75,7 +75,7 @@ const CreateShortUrl = ({ text }: { text: string }): JSX.Element => {
                         onSubmit={handleSubmit}
                         className="flex flex-col justify-between gap-4 h-full w-[70vw] sm:max-w-[50vw]"
                     >
-                        <div>
+                        <div className="flex flex-col gap-4">
                             <div className="flex flex-col w-full">
                                 <Label
                                     htmlFor="originalurl"
