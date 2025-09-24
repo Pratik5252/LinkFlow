@@ -1,6 +1,6 @@
-# Site-Analyse
+# LinkFlow
 
-Site-Analyse is a full-stack web application for URL shortening and analytics. It allows users to create short URLs, track visits, and visualize analytics with a modern, responsive dashboard. The project uses a React + Vite frontend, a Node.js/Express backend, PostgreSQL with Prisma ORM, and Firebase for authentication.
+LinkFlow is a full-stack web application for URL shortening and analytics. It allows users to create short URLs, track visits, and visualize analytics with a modern, responsive dashboard. The project uses a React + Vite frontend, a Node.js/Express backend, PostgreSQL with Prisma ORM, and Firebase for authentication.
 
 ---
 
@@ -24,13 +24,13 @@ Site-Analyse is a full-stack web application for URL shortening and analytics. I
 ## Tech Stack
 
 - **Frontend:**  
-  React 19, Vite, TypeScript, Tailwind CSS, Radix UI, Recharts, Firebase JS SDK
+  React 19, Vite, TypeScript, Tailwind CSS, Schadcn UI
 - **Backend:**  
-  Node.js, Express, Prisma ORM, PostgreSQL, Firebase Admin SDK
+  Node.js, Express, Prisma ORM, PostgreSQL
 - **Authentication:**  
   Firebase Auth (email/password & Google)
 - **Other:**  
-  PM2 for process management, GitHub Actions for CI/CD
+  GitHub Actions for CI/CD
 
 ---
 
